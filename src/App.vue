@@ -1,12 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    Tally-App
+    <hr>
     <router-view/>
+    <hr>
+    <div id="nav">
+      <router-link to = "/money">记账</router-link>
+      <router-link to = "/labels">标签</router-link>
+      <router-link to = "/statistics">统计</router-link>
+
+    </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "App",
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -14,13 +25,17 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #30794b;
 }
 
 #nav {
   padding: 30px;
 
   a {
+    text-decoration: none;
+    border: #839494 1px solid;
+    padding: 5px;
+    margin: 10px;
     font-weight: bold;
     color: #2c3e50;
 
