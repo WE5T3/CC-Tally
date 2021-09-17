@@ -15,6 +15,8 @@ export default {
 <style lang = "scss" scoped>
 #nav {
   padding: 30px;
+  display: flex;
+  justify-content: center;
 
   a {
     text-decoration: none;
