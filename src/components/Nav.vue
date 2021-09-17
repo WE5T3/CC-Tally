@@ -1,18 +1,18 @@
 <template>
-  <div id = "nav">
-    <router-link to = "/labels">
+  <nav id = "nav">
+    <router-link to = "/labels" class="item">
       <Icon name = "detail"/>
       标签
     </router-link>
-    <router-link to = "/money">
+    <router-link to = "/money" class="item">
       <Icon name = "money"/>
       记账
     </router-link>
-    <router-link to = "/statistics">
+    <router-link to = "/statistics" class="item">
       <Icon name = "chart"/>
       统计
     </router-link>
-  </div>
+  </nav>
 </template>
 
 <script lang = "ts">
@@ -22,21 +22,33 @@ export default {
 </script>
 
 <style lang = "scss" scoped>
-#nav {
-  padding: 30px;
+nav {
   display: flex;
-  justify-content: center;
-
-  a {
+  flex-direction: row;
+  justify-content: space-between;
+  box-shadow: 0 0 4px rgba(20, 20, 20, 0.25);
+  >.item{
+    //border: 1px solid blueviolet;
+    padding: 8px 0 4px;
+    width: 33.33333%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    svg{
+      width: 32px;
+      height: 32px;
+    }
+    p{
+      margin: 4px 0;
+    }
     text-decoration: none;
-    border: #839494 1px solid;
-    padding: 5px;
-    margin: 10px;
     font-weight: bold;
-    color: #2c3e50;
+    color: #82dcdc;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: #3f9f9f;
     }
   }
 }
