@@ -22,11 +22,12 @@ export default {
 </script>
 
 <style lang = "scss" scoped>
+@import "~@/assets/style/helper.scss";
 nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  box-shadow: 0 0 4px rgba(20, 20, 20, 0.25);
+  box-shadow: 0 0 3px rgba(20, 20, 20, 0.25);
   >.item{
     //border: 1px solid blueviolet;
     padding: 8px 0 4px;
@@ -45,10 +46,11 @@ nav {
     }
     text-decoration: none;
     font-weight: bold;
-    color: #82dcdc;
+    color: $tfn2;
+
 
     &.router-link-exact-active {
-      color: #3f9f9f;
+      color: $tfn1;
     }
   }
 }
