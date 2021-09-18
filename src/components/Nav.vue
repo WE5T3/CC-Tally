@@ -2,7 +2,7 @@
   <nav id = "nav">
     <router-link to = "/labels" class="item">
       <Icon name = "detail"/>
-      标签
+      明细
     </router-link>
     <router-link to = "/money" class="item">
       <Icon name = "money"/>
@@ -26,10 +26,10 @@ export default {
 nav {
   display: flex;
   flex-direction: row;
+  background-color: $bottomColor;
   justify-content: space-between;
   box-shadow: 0 0 3px rgba(20, 20, 20, 0.25);
   >.item{
-    //border: 1px solid blueviolet;
     padding: 8px 0 4px;
     width: 33.33333%;
     display: flex;
@@ -47,7 +47,6 @@ nav {
     text-decoration: none;
     font-weight: bold;
     color: $tfn2;
-
 
     &.router-link-exact-active {
       color: $tfn1;
