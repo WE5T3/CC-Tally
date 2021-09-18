@@ -12,14 +12,15 @@ export default {
 </script>
 
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@import "~@/assets/style/reset.scss";
+@import "~@/assets/style/helper.scss";
 
-#app {
-  color: #30794b;
+body{
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #515151;
+  font-family: $font-hei;
+  line-height: 1.5;
 }
 
 
