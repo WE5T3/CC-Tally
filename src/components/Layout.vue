@@ -17,6 +17,7 @@ export default {
 </script>
 
 <style lang = "scss" scoped>
+
 .layout-wrapper {
   display: flex;
   flex-direction: column;

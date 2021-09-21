@@ -15,20 +15,21 @@ export default {
 @import "~@/assets/style/helper.scss";
 
 .notes {
+  @extend %innerShadow;
   font-size: 14px;
   padding-left: 8px;
   background-color: $bottomColor;
   display: flex;
   align-items: center;
 
+
   input {
     font-size: 14px;
     text-align: right;
-    line-height: 40px;
-    width: 80%;
+    line-height:37px;
     flex-grow: 1;
     background-color: transparent;
-    height: 40px;
+    height: 37px;
     border: none;
     margin-right: 10px;
   }

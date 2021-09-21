@@ -24,6 +24,7 @@ export default {
 <style lang = "scss" scoped>
 @import "~@/assets/style/helper.scss";
 nav {
+
   display: flex;
   flex-direction: row;
   background-color: $bottomColor;

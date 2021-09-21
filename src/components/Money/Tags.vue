@@ -93,6 +93,7 @@ export default {
 .tags li:hover, .new:hover {
   transform: scale(1.05);
   box-shadow: 1px 2px 2px lightgray;
+  background-color: rgb(157,225,225);
 
   svg {
     animation: shake 0.3s linear;
