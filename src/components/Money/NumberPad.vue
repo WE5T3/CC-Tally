@@ -212,3 +212,4 @@ export default class numberPad extends Vue {
 </style>
 
 
+初步完成NumberPad组件,新增金额加减功能
