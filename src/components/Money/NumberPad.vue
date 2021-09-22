@@ -42,13 +42,13 @@ import {Component} from "vue-property-decorator";
 @Component
 export default class numberPad extends Vue {
   output: string = ''
-
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement)
     // const input = button.textContent as string  //两种写法
     const input = button.textContent!
-    const okButton = document.querySelector('#ok')!
 
+
+    //长度判断
     if (this.output.indexOf('+' || '-') < 0 && this.output.length >= 18) {
       alert('输入数值太大,放不下啦!')
       return;
@@ -56,11 +56,7 @@ export default class numberPad extends Vue {
       alert('输入算式太长,放不下啦!')
       return;
     }
-    if (this.output.indexOf('+') >= 0 || this.output.indexOf('-') >= 0) {
-      okButton.innerHTML = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#等于"></use></svg>'
-    } else {
-      okButton.innerHTML = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#确定"></use></svg>'
-    }
+
     if (this.output === '0') {
       if ('0123456789'.indexOf(input) >= 0) {
         this.output = input
@@ -69,8 +65,11 @@ export default class numberPad extends Vue {
       }
       return
     }
+
     let number1 = this.output.split(/-|[+]/).pop() as string
     let number2 = number1.split('.').pop() as string
+
+    //限制小数点后两位
     if (number1[0] === '0' || '.') {
       if (number1.indexOf('.') >= 0) {
         if (number2.length >= 2) {
@@ -92,17 +91,28 @@ export default class numberPad extends Vue {
   }
 
   remove() {
+    const okButton = document.querySelector('#ok')!
     if (this.output.length === 1) {
       this.output = '0'
     } else {
       this.output = this.output.substring(0, this.output.length - 1)
     }
+    if (this.output.indexOf('+' || '-') < 0) {
+      okButton.innerHTML = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#确定"></use></svg>'
+    }
   }
-
 
   calculator(event: MouseEvent) {
     const button = (event.currentTarget as HTMLButtonElement)
     const input = button.id
+    const okButton = document.querySelector('#ok')!
+
+    // √和= 切换
+    if (input === '-' || '+') {
+      if (this.output.indexOf('+' || '-') < 0) {
+        okButton.innerHTML = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#等于"></use></svg>'
+      }
+    }
 
     if (this.output.substr(-1, 1) === '+' && input === '+' || this.output.substr(-1, 1) === '-' && input === '-') {
       return;
@@ -110,13 +120,13 @@ export default class numberPad extends Vue {
       this.output = this.output.slice(0, -1);
       this.output += input
     } else if (this.output.substr(-1, 1) === '.' && (input === ('-') || input === ('+'))) {
-      if (this.output.substr(-2, 1) === '+' || '-') {
+      if ('+-'.indexOf(this.output.substr(-2, 1)) >=0) {
         return;
       }
-      // console.log(this.output.slice(0, -1))
       this.output = this.output.slice(0, -1);
       this.output += input
-    } else {
+    }
+    else {
       this.output += input
     }
 
@@ -128,10 +138,20 @@ export default class numberPad extends Vue {
   }
 
   ok() {
+    const okButton = document.querySelector('#ok')!
+    okButton.innerHTML = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#确定"></use></svg>'
+
+    if ('+-'.indexOf(this.output.substr(-1, 1))>=0){
+      this.output = this.output.slice(0, -1);
+      console.log('+-+')
+    } else if (this.output.substr(-1, 1)==='.'&&'+-'.indexOf(this.output.substr(-2, 1))>=0){
+      this.output = this.output.slice(0, -2);
+      console.log('+-+')
+    }
 
     this.output = eval(this.output).toFixed(2)
-    console.log(eval(this.output).toFixed(2));
-    console.log('ok');
+    console.log('ok: ' + eval(this.output).toFixed(2));
+
   }
 }
 
@@ -210,6 +230,5 @@ export default class numberPad extends Vue {
   font-size: 25px;
 }
 </style>
-
 
 初步完成NumberPad组件,新增金额加减功能

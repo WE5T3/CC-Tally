@@ -79,11 +79,12 @@ export default {
     margin: 3px 10px;
     padding-top: 3px;
     text-align: center;
-    border: 1px solid #88dede;
+    border: 1px solid #ced7d7;
     width: 6em;
     height: 4em;
 
     svg {
+      color: rgb(96,211,211);
       width: 50px;
       height: 50px;
     }
