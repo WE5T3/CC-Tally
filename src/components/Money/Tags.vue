@@ -1,60 +1,44 @@
 <template>
   <ul class = "tags">
-    <li>
-      <Icon name = "服饰"/>
-      服饰
+    <li v-for = "tag in tagList" :key = "tag" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag
+    )">
+      <Icon :name = 'tag'></Icon>
+      {{ tag }}
     </li>
-    <li>
-      <Icon name = "饮食"/>
-      饮食
-    </li>
-    <li>
-      <Icon name = "住房"/>
-      住房
-    </li>
-    <li>
-      <Icon name = "交通"/>
-      交通
-    </li>
-    <li>
-      <Icon name = "通讯"/>
-      通讯
-    </li>
-    <li>
-      <Icon name = "学习"/>
-      学习
-    </li>
-    <li>
-      <Icon name = "水电"/>
-      水电
-    </li>
-    <li>
-      <Icon name = "日用"/>
-      日用
-    </li>
-    <li>
-      <Icon name = "娱乐"/>
-      娱乐
-    </li>
-    <li>
-      <Icon name = "美容"/>
-      美容
-    </li>
-    <li>
-      <Icon name = "医疗"/>
-      医疗
-    </li>
-    <div class = "new">
+    <li class = "new"  @click = "add">
       <Icon name = "右"/>
       新增标签
-    </div>
+    </li>
   </ul>
 
 </template>
 
 <script lang = "ts">
-export default {
-  name: "Tags"
+import Vue from "vue";
+import {Component, Prop} from "vue-property-decorator";
+import Icon from '@/components/Icon.vue';
+
+@Component({
+  components: {Icon}
+})
+export default class Tags extends Vue {
+  @Prop() tagList: string[] | undefined
+  selectedTags: string[] = []
+  addTags:string[]=[]
+  toggle(tag: string) {
+    const index = this.selectedTags.indexOf(tag)
+    if (this.selectedTags.indexOf(tag) >= 0) {
+      this.selectedTags.splice(index, 1)
+    } else if (this.selectedTags.length >= 1) {
+      this.selectedTags.splice(index, 1)
+      this.selectedTags.push(tag)
+    } else {
+      this.selectedTags.push(tag)
+    }
+  }
+  add() {
+      this.$router.replace('/addTags');
+  }
 }
 </script>
 
@@ -84,21 +68,26 @@ export default {
     height: 4em;
 
     svg {
-      color: rgb(96,211,211);
+      color: rgb(72, 82, 82);
       width: 50px;
       height: 50px;
+    }
+
+    &.selected {
+      transform: scale(1.05);
+      box-shadow: 1px 2px 2px lightgray;
+      background-color: rgb(157, 225, 225);
+
+      svg {
+        animation: shake 0.3s linear;
+      }
     }
   }
 }
 
 .tags li:hover, .new:hover {
-  transform: scale(1.05);
-  box-shadow: 1px 2px 2px lightgray;
-  background-color: rgb(157,225,225);
 
-  svg {
-    animation: shake 0.3s linear;
-  }
+
 }
 
 @keyframes shake {

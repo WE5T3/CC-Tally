@@ -18,7 +18,11 @@ export default class Types extends Vue{
     if(type!=='-'&&type !=='+'){
       throw new Error('type is unknown')
     }
+    if (this.type === '-'){
+
+    }
     this.type = type
+
     // console.log(type)
   }
 

@@ -1,5 +1,9 @@
 # cctally
 
+## 目标
+- 新增
+- 收入tag栏
+
 ## Project setup
 ```
 yarn install
