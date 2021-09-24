@@ -1,7 +1,7 @@
 <template>
   <div class = "numberPad">
     <div class = "amount">
-      <div class = "tag">¥</div>
+      <div class = "rmb">¥</div>
       <div class = "output">{{ output }}</div>
     </div>
     <div class = "buttons">
@@ -25,8 +25,8 @@
       </button>
       <button @click = "inputContent" class = "point">.</button>
       <button @click = "inputContent">0</button>
-      <button @click = "calender" class = "btnSvg">
-        <Icon name = "日历"/>
+      <button @click = "clearAll" class = "btnSvg">
+        <Icon name = "清空"/>
       </button>
       <button @click = "ok" id = "ok" class = "btnSvg">
         <Icon name = "确定"/>
@@ -37,11 +37,13 @@
 
 <script lang = "ts">
 import Vue from 'vue'
-import {Component} from "vue-property-decorator";
+import {Component,Prop} from "vue-property-decorator";
 
 @Component
 export default class numberPad extends Vue {
-  output: string = ''
+  @Prop() readonly  value!:number
+
+  output: string = this.value.toString()
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement)
     // const input = button.textContent as string  //两种写法
@@ -90,6 +92,7 @@ export default class numberPad extends Vue {
 
   }
 
+
   remove() {
     const okButton = document.querySelector('#ok')!
     if (this.output.length === 1) {
@@ -102,6 +105,9 @@ export default class numberPad extends Vue {
     }
   }
 
+  clearAll(){
+    this.output = '0'
+  }
   calculator(event: MouseEvent) {
     const button = (event.currentTarget as HTMLButtonElement)
     const input = button.id
@@ -132,7 +138,6 @@ export default class numberPad extends Vue {
 
   }
 
-
   calender() {
     console.log('calender')
   }
@@ -143,15 +148,13 @@ export default class numberPad extends Vue {
 
     if ('+-'.indexOf(this.output.substr(-1, 1))>=0){
       this.output = this.output.slice(0, -1);
-      console.log('+-+')
-    } else if (this.output.substr(-1, 1)==='.'&&'+-'.indexOf(this.output.substr(-2, 1))>=0){
+      console.log('+-+')    } else if (this.output.substr(-1, 1)==='.'&&'+-'.indexOf(this.output.substr(-2, 1))>=0){
       this.output = this.output.slice(0, -2);
-      console.log('+-+')
     }
 
     this.output = eval(this.output).toFixed(2)
-    console.log('ok: ' + eval(this.output).toFixed(2));
 
+    this.$emit('update:value',this.output)
   }
 }
 
@@ -164,7 +167,7 @@ export default class numberPad extends Vue {
   .amount {
     @extend %innerShadow;
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
     font-size: 24px;
     padding-right: 8px;
     height: 37px;
@@ -172,7 +175,7 @@ export default class numberPad extends Vue {
     font-weight: lighter;
     background-color: $bottomColor;
 
-    .tag {
+    .rmb {
       color: #50bebe;
       padding-right: 2px;
     }
@@ -189,6 +192,7 @@ export default class numberPad extends Vue {
       width: 25%;
       height: 64px;
       float: left;
+      font-weight: bold;
       background: transparent;
       border: none;
 
@@ -230,5 +234,3 @@ export default class numberPad extends Vue {
   font-size: 25px;
 }
 </style>
-
-初步完成NumberPad组件,新增金额加减功能

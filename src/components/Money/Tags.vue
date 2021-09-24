@@ -1,30 +1,32 @@
 <template>
-  <ul class = "tags">
-    <li v-for = "tag in tagList" :key = "tag" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag
+      <ul class = "tags">
+        <li v-for = "tag in tagList" :key = "tag" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag
     )">
-      <Icon :name = 'tag'></Icon>
-      {{ tag }}
-    </li>
-    <li class = "new"  @click = "add">
-      <Icon name = "右"/>
-      新增标签
-    </li>
-  </ul>
+          <Icon :name = 'tag'></Icon>
+          {{ tag }}
+        </li>
+        <li class = "new" @click = "add">
+          <Icon name = "右"/>
+          新增标签
+        </li>
+      </ul>
 
 </template>
 
 <script lang = "ts">
 import Vue from "vue";
 import {Component, Prop} from "vue-property-decorator";
-import Icon from '@/components/Icon.vue';
+import Icon from "@/components/Icon.vue";
 
 @Component({
   components: {Icon}
 })
 export default class Tags extends Vue {
-  @Prop() tagList: string[] | undefined
+
+  @Prop() readonly tagList: string[] | undefined
   selectedTags: string[] = []
-  addTags:string[]=[]
+  addTags: string[] = []
+
   toggle(tag: string) {
     const index = this.selectedTags.indexOf(tag)
     if (this.selectedTags.indexOf(tag) >= 0) {
@@ -35,9 +37,19 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.push(tag)
     }
+    this.$emit('update:value',this.selectedTags)
   }
+
   add() {
-      this.$router.replace('/addTags');
+    const name = window.prompt('请输入标签名')
+    if (name===''){
+      window.alert('标签名不能为空')
+    }
+    else if(this.tagList && name!==null){
+      console.log('name')
+      this.$emit('update:tagList',[...this.tagList,name])
+    }
+    // this.$router.replace('/addTags');
   }
 }
 </script>
@@ -49,10 +61,12 @@ export default class Tags extends Vue {
   flex-grow: 1;
   display: flex;
   margin: 10px 0;
+  padding-left: 3px;
   flex-direction: row;
   flex-wrap: wrap;
   overflow: auto;
-  justify-content: center;
+  //justify-content: center;
+
 
   li, .new {
     font-size: 12px;
@@ -85,10 +99,6 @@ export default class Tags extends Vue {
   }
 }
 
-.tags li:hover, .new:hover {
-
-
-}
 
 @keyframes shake {
   0% {

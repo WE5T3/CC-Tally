@@ -5,7 +5,6 @@
         <div class="title">
           <button class="back" @click="back">
             返回
-<!--            <Icon name="left"/>-->
           </button>
           <span>添加支出类别</span>
         </div>
@@ -25,36 +24,43 @@
       <div class="food">
         <div class="kind-name">
           餐饮
+          <div>123</div>
         </div>
+<!--        <Tags  :selected-tag.sync="tag"/>-->
 <!--        <TagList class-prefix="main" :tag-list="foodTags" :selected-tag.sync="tag"/>-->
       </div>
       <div class="shopping">
         <div class="kind-name">
           购物
+          <div>123</div>
         </div>
 <!--        <TagList class-prefix="main" :tag-list="shoppingTags" :selected-tag.sync="tag"/>-->
       </div>
       <div class="transport">
         <div class="kind-name">
           交通
+          <div>123</div>
         </div>
 <!--        <TagList class-prefix="main" :tag-list="transportTags" :selected-tag.sync="tag"/>-->
       </div>
       <div class="house">
         <div class="kind-name">
           居住
+          <div>123</div>
         </div>
 <!--        <TagList class-prefix="main" :tag-list="houseTags" :selected-tag.sync="tag"/>-->
       </div>
       <div class="entertainment">
         <div class="kind-name">
           娱乐
+          <div>123</div>
         </div>
 <!--        <TagList class-prefix="main" :tag-list="entertainmentTags" :selected-tag.sync="tag"/>-->
       </div>
       <div class="medical">
         <div class="kind-name">
           医疗
+          <div>123</div>
         </div>
 <!--        <TagList class-prefix="main" :tag-list="medicalTags" :selected-tag.sync="tag"/>-->
       </div>
@@ -65,12 +71,11 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import Layout from '@/components/Layout.vue';
 import Tags from '@/components/Money/Tags.vue';
 import Icon from '@/components/Icon.vue';
 
 @Component({
-  components: {Icon, Tags, Layout}
+  components: {Icon, Tags}
 })
 export default class AddTags extends Vue {
   // tag:{name: 'food', value: '餐饮'};
