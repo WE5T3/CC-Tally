@@ -21,7 +21,7 @@ export default class Date extends Vue {
   onChange(date: any, dateString: any) {
     this.$emit('update:value',dateString)
   }
-  gc -m '收集五个组件的数据到record'
+
 
 }
 </script>
