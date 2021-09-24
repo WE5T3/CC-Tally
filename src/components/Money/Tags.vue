@@ -22,7 +22,7 @@ import Icon from "@/components/Icon.vue";
   components: {Icon}
 })
 export default class Tags extends Vue {
-
+  @Prop() readonly value!:string
   @Prop() readonly tagList: string[] | undefined
   selectedTags: string[] = []
   addTags: string[] = []
@@ -38,6 +38,7 @@ export default class Tags extends Vue {
       this.selectedTags.push(tag)
     }
     this.$emit('update:value',this.selectedTags)
+    // this.$emit('update:value',this.value)
   }
 
   add() {

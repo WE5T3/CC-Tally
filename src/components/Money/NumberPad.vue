@@ -37,13 +37,14 @@
 
 <script lang = "ts">
 import Vue from 'vue'
-import {Component,Prop} from "vue-property-decorator";
+import {Component, Prop} from "vue-property-decorator";
 
 @Component
 export default class numberPad extends Vue {
-  @Prop() readonly  value!:number
+  @Prop() readonly value!: number
 
   output: string = this.value.toString()
+
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement)
     // const input = button.textContent as string  //两种写法
@@ -105,9 +106,10 @@ export default class numberPad extends Vue {
     }
   }
 
-  clearAll(){
+  clearAll() {
     this.output = '0'
   }
+
   calculator(event: MouseEvent) {
     const button = (event.currentTarget as HTMLButtonElement)
     const input = button.id
@@ -126,13 +128,12 @@ export default class numberPad extends Vue {
       this.output = this.output.slice(0, -1);
       this.output += input
     } else if (this.output.substr(-1, 1) === '.' && (input === ('-') || input === ('+'))) {
-      if ('+-'.indexOf(this.output.substr(-2, 1)) >=0) {
+      if ('+-'.indexOf(this.output.substr(-2, 1)) >= 0) {
         return;
       }
       this.output = this.output.slice(0, -1);
       this.output += input
-    }
-    else {
+    } else {
       this.output += input
     }
 
@@ -146,15 +147,14 @@ export default class numberPad extends Vue {
     const okButton = document.querySelector('#ok')!
     okButton.innerHTML = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#确定"></use></svg>'
 
-    if ('+-'.indexOf(this.output.substr(-1, 1))>=0){
+    if ('+-'.indexOf(this.output.substr(-1, 1)) >= 0) {
       this.output = this.output.slice(0, -1);
-      console.log('+-+')    } else if (this.output.substr(-1, 1)==='.'&&'+-'.indexOf(this.output.substr(-2, 1))>=0){
+    } else if (this.output.substr(-1, 1) === '.' && '+-'.indexOf(this.output.substr(-2, 1)) >= 0) {
       this.output = this.output.slice(0, -2);
     }
-
     this.output = eval(this.output).toFixed(2)
-
-    this.$emit('update:value',this.output)
+    this.$emit('update:value', this.output)
+    this.$emit('submit',this.output)
   }
 }
 
