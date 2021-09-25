@@ -39,11 +39,16 @@
 import Vue from 'vue'
 import {Component, Prop} from "vue-property-decorator";
 
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn'); //设置语言 或 moment.lang('zh-cn');
 @Component
 export default class numberPad extends Vue {
   @Prop() readonly value!: number
-
+  computing: boolean = false
   output: string = this.value.toString()
+  svgEqual = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#等于"></use></svg>'
+  svgSubmit = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#确定"></use></svg>'
 
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement)
@@ -118,10 +123,14 @@ export default class numberPad extends Vue {
     // √和= 切换
     if (input === '-' || '+') {
       if (this.output.indexOf('+' || '-') < 0) {
-        okButton.innerHTML = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#等于"></use></svg>'
+        okButton.innerHTML = this.svgEqual
       }
     }
-
+    if (okButton.innerHTML === this.svgEqual) {
+      this.computing = true
+    } else {
+      this.computing = false
+    }
     if (this.output.substr(-1, 1) === '+' && input === '+' || this.output.substr(-1, 1) === '-' && input === '-') {
       return;
     } else if (this.output.substr(-1, 1) === '+' && input === '-' || this.output.substr(-1, 1) === '-' && input === '+') {
@@ -139,23 +148,31 @@ export default class numberPad extends Vue {
 
   }
 
-  calender() {
-    console.log('calender')
-  }
+
 
   ok() {
+
     const okButton = document.querySelector('#ok')!
-    okButton.innerHTML = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#确定"></use></svg>'
+    okButton.innerHTML = this.svgSubmit
 
     if ('+-'.indexOf(this.output.substr(-1, 1)) >= 0) {
       this.output = this.output.slice(0, -1);
     } else if (this.output.substr(-1, 1) === '.' && '+-'.indexOf(this.output.substr(-2, 1)) >= 0) {
       this.output = this.output.slice(0, -2);
     }
-    this.output = eval(this.output).toFixed(2)
-    this.$emit('update:value', this.output)
-    this.$emit('submit',this.output)
+
+    if (!this.computing) {
+      this.output = eval(this.output).toFixed(2)
+      this.$emit('update:value', this.output)
+      this.$emit('submit', this.output)
+      this.output = '0'
+    }else {
+      this.output = eval(this.output).toFixed(2)
+      this.computing=false
+    }
   }
+
+
 }
 
 </script>

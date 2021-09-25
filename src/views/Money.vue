@@ -1,10 +1,10 @@
 <template>
   <div class = "money">
-    {{record}}
+    {{recordList}}
     <Types :value.sync="record.type" />
     <Tags :tag-list.sync = 'expenseTags' @update:value = "onUpdateTags"/>
     <!--      <Tags :tag-list = 'incomeTags'/>-->
-    <Date @update:value = "onUpdateDate"/>
+    <DatePicker @update:value = "onUpdateDate"/>
     <Notes @update:value = "onUpdateNotes"/>
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
 
@@ -17,23 +17,24 @@ import Vue from 'vue'
 import NumberPad from "@/components/Money/NumberPad.vue"
 import Types from "@/components/Money/Types.vue"
 import Tags from "@/components/Money/Tags.vue"
-import Date from "@/components/Money/Date.vue"
+import DatePicker from "@/components/Money/DatePicker.vue"
 import Notes from "@/components/Money/Notes.vue"
 
 import {Component, Watch} from "vue-property-decorator";
 
 type Record = {
-  tags: string[]
-  notes: string
   type: string
-  amount: number
+  tags: string[]
   date: string
+  notes: string
+  amount: number
+  createdAt?:Date |string
 }
-@Component({components: {Notes, Date, Tags, Types, NumberPad}}
+@Component({components: {Notes, DatePicker, Tags, Types, NumberPad}}
 )
 export default class Money extends Vue {
-  recordList:Record[]=[]
-  record: Record = {tags: [], notes: '', type: '-', amount: 0, date: ''}
+  recordList:Record[]=JSON.parse(window.localStorage.getItem('recordList')||'[]')
+  record: Record = {type: '-',tags: [],date: '', notes: '',  amount: 0, }
   expenseTags: string[] = ['服饰', '饮食', '住房', '交通', '通讯', '学习', '水电', '日用', '娱乐', '美容', '医疗']
   incomeTags: string[] = ['生活费', '工资', '奖金', '副业', '报销', '借款', '投资', '租金', '分红']
 
@@ -53,13 +54,16 @@ export default class Money extends Vue {
     console.log(value)
   }
   saveRecord(){
-    const record2=JSON.parse( JSON.stringify(this.record))
+    const record2:Record=JSON.parse(JSON.stringify(this.record))
+    record2.createdAt=new Date().toLocaleDateString()
     this.recordList.push(record2)
     console.log(this.recordList)
   }
+
+
   @Watch('recordList')
   onRecordListChange(){
-    localStorage.setItem('recordList',JSON.stringify(this.record))
+    localStorage.setItem('recordList',JSON.stringify(this.recordList))
   }
 }
 </script>
