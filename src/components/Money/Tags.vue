@@ -5,7 +5,7 @@
           <Icon :name = 'tag'></Icon>
           {{ tag }}
         </li>
-        <li class = "new" @click = "add">
+        <li v-if="dynamic" class = "new" @click = "add">
           <Icon name = "右"/>
           新增标签
         </li>
@@ -22,6 +22,7 @@ import Icon from "@/components/Icon.vue";
   components: {Icon}
 })
 export default class Tags extends Vue {
+  @Prop({type: Boolean, default: false}) dynamic!: boolean;
   @Prop() readonly value!:string
   @Prop() readonly tagList: string[] | undefined
   selectedTags: string[] = []
@@ -39,7 +40,7 @@ export default class Tags extends Vue {
       this.selectedTags.push(tag)
     }
     this.$emit('update:value',this.selectedTags)
-    // this.$emit('update:value',this.value)
+
   }
 
   add() {

@@ -7,7 +7,6 @@
                    valueFormat="YYYY-MM-DD"
                    :inputReadOnly = 'true'
                    @change = "onChange"
-                   @click="onChange"
     />
 
   </div>
@@ -15,7 +14,6 @@
 </template>
 <script lang = "ts">
 import Vue from 'vue';
-import dayjs from "dayjs";
 import {DatePicker} from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import {Component} from 'vue-property-decorator';
@@ -28,7 +26,7 @@ export default class DateSelector extends Vue {
 
   onChange(date: any, dateString: any) {
     this.$emit('update:value', dateString)
-
+    console.log(dateString)
   }
 
   span() {
