@@ -6,6 +6,7 @@ import Statistics from "@/views/Statistics.vue";
 import NotFound from "@/views/NotFound.vue";
 import AddTags from "@/views/AddTags.vue";
 import EditTags from "@/views/EditTags.vue";
+import EditLabel from "@/views/EditLabel.vue";
 
 Vue.use(VueRouter)
 
@@ -27,8 +28,12 @@ const routes: Array<RouteConfig> = [
         component: Statistics
     },
     {
-        path:'/addtags',
+        path:'/edittags/addtags',
         component: AddTags
+    },
+    {
+        path:'/edittags/editlabel/:id',
+        component: EditLabel
     },
     {
         path:'/edittags',

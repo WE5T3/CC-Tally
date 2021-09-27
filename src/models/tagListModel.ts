@@ -1,7 +1,11 @@
 const localStorageKeyName = 'tagList';
+type Tag={
+    id:string
+    name:string
+}
 type TagListModel= {
-    data: string[]
-    fetch: () => string[]
+    data: Tag[]
+    fetch: () => Tag[]
     create: (name: string) => 'success'|'duplicated'|'blank'
     //'success表示成功,duplicated 表示name重复
     save: () => void
@@ -10,13 +14,15 @@ type TagListModel= {
 const tagListModel :TagListModel= {
     data:[],
     create(name:string){
+        const names = this.data.map(item=>item.name)
+        console.log(name)
         if(name===' '|| name.indexOf(' ')>=0){
             return 'blank'
         }
-        if (this.data.indexOf(name)>=0){
+        if (names.indexOf(name)>=0){
             return 'duplicated'
         }
-        this.data.push(name)
+        this.data.push({id:name,name:name})
         this.save()
         return 'success'
     },

@@ -1,6 +1,5 @@
 <template>
   <div class = "edit">
-    <Layout>
       <header>
         <button class = "back" @click = "back">
           返回
@@ -8,22 +7,20 @@
         <button class = "ok" @click = "ok">
           完成
         </button>
-
       </header>
-      <ol class = "tags">
-        <li v-for = "tag in tags" :key = "tag">
-          <span>{{ tag }}</span>
+      <div class = "tags">
+        <router-link class="item" v-for = "tag in tags" :key = "tag.id" :to="`/edittags/editlabel/${tag.id}`" >
+          <span>{{ tag.name }}</span>
           <Icon name = "tag"/>
           <Icon name = "right"/>
-        </li>
+        </router-link>
 
-      </ol>
+      </div>
       <div class = "newTag-wrapper">
         <button class = "newTag" @click = "createTag">
           新建标签
         </button>
       </div>
-    </Layout>
   </div>
 </template>
 
@@ -56,7 +53,7 @@ export default class EditTags extends Vue {
         window.alert('标签名不能含有空格')
       }
     }
-    // this.$router.replace('/addtags');
+    // this.$router.replace('/edittags/addtags');
   }
 
   ok() {
@@ -67,27 +64,36 @@ export default class EditTags extends Vue {
 </script>
 
 <style lang = "scss" scoped>
+
+.edit{
+  height: 100vh;
+  background-color: rgb(245, 245, 245);
+}
 header {
   display: flex;
-  background-color: white;
-  justify-content: space-around;
+  background-color: rgb(245,245,245);
+  justify-content: space-between;
 
   button {
-    background-color: #767676;
-    color: white;
+    background-color: rgb(157,225,225);
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
     border-radius: 4px;
     border: none;
-    height: 40px;
+    height: 30px;
     padding: 0 16px;
   }
 }
 
 .tags {
   background-color: white;
-  font-size: 16px;
+  font-size: 14px;
   padding-left: 16px;
 
-  > li {
+  > .item {
+    text-decoration: none;
+    color: black;
     min-height: 44px;
     display: flex;
     align-items: center;
@@ -104,8 +110,10 @@ header {
 }
 
 .newTag {
-  background-color: #767676;
-  color: white;
+
+  background-color: rgb(157,225,225);
+  color: black;
+  font-size: 14px;
   border-radius: 4px;
   border: none;
   height: 40px;
@@ -120,3 +128,4 @@ header {
 }
 
 </style>
+

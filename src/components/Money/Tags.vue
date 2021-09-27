@@ -5,9 +5,9 @@
           <Icon :name = 'tag'></Icon>
           {{ tag }}
         </li>
-        <li v-if="dynamic" class = "new" @click = "add">
+        <li v-if="dynamic" class = "edit" @click = "edit">
           <Icon name = "右"/>
-          新增标签
+          编辑
         </li>
       </ul>
 
@@ -43,7 +43,7 @@ export default class Tags extends Vue {
 
   }
 
-  add() {
+  edit() {
     // const name = window.prompt('请输入标签名')
     // if (name===''){
     //   window.alert('标签名不能为空')
@@ -52,7 +52,7 @@ export default class Tags extends Vue {
     //   console.log('name')
     //   this.$emit('update:tagList',[...this.tagList,name])
     // }
-    this.$router.replace('/EditTags');
+    this.$router.replace('/edittags');
   }
 }
 </script>
@@ -71,7 +71,7 @@ export default class Tags extends Vue {
   justify-content: center;
 
 
-  li, .new {
+  li, .edit {
     font-size: 12px;
     display: flex;
     flex-direction: column;
