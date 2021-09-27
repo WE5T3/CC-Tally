@@ -111,7 +111,7 @@ export default class AddTags extends Vue {
   // return this.$store.state.tagList;
   // }
   back() {
-    this.$router.replace('/money');
+    this.$router.replace('/edittags');
   }
 
   ok() {

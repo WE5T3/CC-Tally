@@ -19,24 +19,14 @@ import Types from "@/components/Money/Types.vue"
 import Tags from "@/components/Money/Tags.vue"
 import DatePicker from "@/components/Money/DatePicker.vue"
 import Notes from "@/components/Money/Notes.vue"
-import {model} from "@/model"
+import {recordListModel} from "@/models/recordListModel"
 import {Component, Watch} from "vue-property-decorator"
+import {tagListModel} from "@/models/tagListModel";
 
-const recordList = model.fetch()
-
+const recordList = recordListModel.fetch()
+const tagList= tagListModel.fetch()
 const version = window.localStorage.getItem('version')||'0'
 
-// if (version < '0.0.2') {
-//   // 数据库升级 数据迁移
-//   if (version === '0.0.1') {
-//     recordList.forEach(record => {
-//       record.createdAt = new Date(2020, 0, 1)
-//     })
-//   }
-//   //保存数据
-//   window.localStorage.setItem('recordList', JSON.stringify(this.recordList))
-// }
-// window.localStorage.setItem('version', '0.0.2')
 
 type RecordItem = {
   type: string
@@ -51,7 +41,9 @@ type RecordItem = {
 export default class Money extends Vue {
   recordList: RecordItem[] =  recordList
   record: RecordItem = {type: '-', tags: [], date: '', notes: '', amount: 0,}
-  expenseTags: string[] = ['服饰', '饮食', '住房', '交通', '通讯', '学习', '水电', '日用', '娱乐', '美容', '医疗']
+  // expenseTags: string[] = ['服饰', '饮食', '住房', '交通', '通讯', '学习', '水电', '日用', '娱乐', '美容', '医疗']
+  expenseTags= tagList
+  // incomeTags: string[] = ['生活费', '工资', '奖金', '副业', '报销', '借款', '投资', '租金', '分红']
   incomeTags: string[] = ['生活费', '工资', '奖金', '副业', '报销', '借款', '投资', '租金', '分红']
 
   onUpdateTags(value: string[]) {
@@ -71,7 +63,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const record2: RecordItem = model.clone(this.record)
+    const record2: RecordItem = recordListModel.clone(this.record)
     record2.createdAt = new Date().toLocaleDateString()
     this.recordList.push(record2)
     console.log(this.recordList)
@@ -80,7 +72,7 @@ export default class Money extends Vue {
 
   @Watch('recordList')
   onRecordListChange() {
-    model.save(this.recordList)
+    recordListModel.save(this.recordList)
   }
 }
 </script>

@@ -44,15 +44,15 @@ export default class Tags extends Vue {
   }
 
   add() {
-    const name = window.prompt('请输入标签名')
-    if (name===''){
-      window.alert('标签名不能为空')
-    }
-    else if(this.tagList && name!==null){
-      console.log('name')
-      this.$emit('update:tagList',[...this.tagList,name])
-    }
-    // this.$router.replace('/addTags');
+    // const name = window.prompt('请输入标签名')
+    // if (name===''){
+    //   window.alert('标签名不能为空')
+    // }
+    // else if(this.tagList && name!==null){
+    //   console.log('name')
+    //   this.$emit('update:tagList',[...this.tagList,name])
+    // }
+    this.$router.replace('/EditTags');
   }
 }
 </script>
@@ -64,11 +64,11 @@ export default class Tags extends Vue {
   flex-grow: 1;
   display: flex;
   margin: 10px 0;
-  padding-left: 3px;
+  //padding-left: 3px;
   flex-direction: row;
   flex-wrap: wrap;
   overflow: auto;
-  //justify-content: center;
+  justify-content: center;
 
 
   li, .new {
