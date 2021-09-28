@@ -1,9 +1,9 @@
 <template>
       <ul class = "tags">
-        <li v-for = "tag in tagList" :key = "tag" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag
+        <li v-for = "tag in tagList" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag
     )">
           <Icon :name = 'tag'></Icon>
-          {{ tag }}
+          {{ tag.name }}
         </li>
         <li v-if="dynamic" class = "edit" @click = "edit">
           <Icon name = "右"/>
