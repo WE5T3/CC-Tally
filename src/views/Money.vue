@@ -1,6 +1,7 @@
 <template>
   <div class = "money">
-    {{ recordList }}
+<!--    {{ recordList }}-->
+    {{record}}
     <Types :value.sync = "record.type"/>
     <Tags  v-if="record.type === '-'"   :tag-list.sync = 'expenseTags'  @update:value = "onUpdateTags" :dynamic="true"/>
     <Tags  v-else-if="record.type === '+'" :tag-list.sync = 'incomeTags'  @update:value = "onUpdateTags" :dynamic="true"/>
