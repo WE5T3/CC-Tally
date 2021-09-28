@@ -1,17 +1,22 @@
 <template>
-<div>
-  <Layout>
-    <p>Labels.vue</p>
-  </Layout>
-</div>
+  <div>
+    <Layout>
+      <span>Labels.vue</span>
+      <!--    <a-date-picker/>-->
+    </Layout>
+  </div>
 </template>
 
 <script lang = "ts">
-export default {
-  name: "Labels",
+import Vue from 'vue'
+import {Component} from "vue-property-decorator"
+
+
+@Component
+export default class Labels extends Vue {
+
 }
 </script>
-
 <style lang = "scss" scoped>
 
 </style>

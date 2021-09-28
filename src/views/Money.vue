@@ -5,7 +5,7 @@
     <Types :value.sync = "record.type"/>
     <Tags  v-if="record.type === '-'"   :tag-list.sync = 'expenseTags'  @update:value = "onUpdateTags" :dynamic="true"/>
     <Tags  v-else-if="record.type === '+'" :tag-list.sync = 'incomeTags'  @update:value = "onUpdateTags" :dynamic="true"/>
-<!--        <DatePicker @update:value = "onUpdateDate"/>-->
+    <DatePicker @update:value = "onUpdateDate"/>
     <FormItem field-name="备注" placeholder="#请输入备注#" @update:value = "onUpdateNotes"/>
 
     <NumberPad :value.sync = "record.amount" @submit = "saveRecord"/>
