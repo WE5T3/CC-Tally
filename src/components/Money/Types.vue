@@ -1,7 +1,7 @@
 <template>
   <div class = "types">
     <button class = "back" @click = "back">
-      <Icon name = "左"/>
+      <Icon name = "left"/>
     </button>
     <div class = "type">
       <div class = "expense" :class = "value==='-' && 'selected'"

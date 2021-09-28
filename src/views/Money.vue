@@ -4,8 +4,8 @@
     <Types :value.sync = "record.type"/>
     <Tags  v-if="record.type === '-'"   :tag-list.sync = 'expenseTags'  @update:value = "onUpdateTags" :dynamic="true"/>
     <Tags  v-else-if="record.type === '+'" :tag-list.sync = 'incomeTags'  @update:value = "onUpdateTags" :dynamic="true"/>
+    <FormItem field-name="备注" placeholder="#请输入备注#" @update:value = "onUpdateNotes"/>
     <DatePicker @update:value = "onUpdateDate"/>
-    <Notes @update:value = "onUpdateNotes"/>
     <NumberPad :value.sync = "record.amount" @submit = "saveRecord"/>
 
   </div>
@@ -18,7 +18,7 @@ import NumberPad from "@/components/Money/NumberPad.vue"
 import Types from "@/components/Money/Types.vue"
 import Tags from "@/components/Money/Tags.vue"
 import DatePicker from "@/components/Money/DatePicker.vue"
-import Notes from "@/components/Money/Notes.vue"
+import FormItem from "@/components/Money/FormItem.vue"
 import {recordListModel} from "@/models/recordListModel"
 import {Component, Watch} from "vue-property-decorator"
 import {tagListModel} from "@/models/tagListModel";
@@ -36,7 +36,7 @@ type RecordItem = {
   amount: number
   createdAt?: Date | string
 }
-@Component({components: {Notes, DatePicker, Tags, Types, NumberPad}}
+@Component({components: {FormItem, DatePicker, Tags, Types, NumberPad}}
 )
 export default class Money extends Vue {
   recordList: RecordItem[] =  recordList

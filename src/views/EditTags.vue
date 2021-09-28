@@ -1,26 +1,23 @@
 <template>
   <div class = "edit">
-      <header>
-        <button class = "back" @click = "back">
-          返回
-        </button>
-        <button class = "ok" @click = "ok">
-          完成
-        </button>
-      </header>
-      <div class = "tags">
-        <router-link class="item" v-for = "tag in tags" :key = "tag.id" :to="`/edittags/editlabel/${tag.id}`" >
-          <span>{{ tag.name }}</span>
-          <Icon name = "tag"/>
-          <Icon name = "right"/>
-        </router-link>
+    <header>
+      <Icon class= "backIcon"  name="left" @click.native="back"/>
+      <span class = "title">选择标签</span>
+      <span class = "gap"></span>
+    </header>
+    <div class = "tags">
+      <router-link class = "item" v-for = "tag in tags" :key = "tag.id" :to = "`/edittags/editlabel/${tag.id}`">
+        <span>{{ tag.name }}</span>
+        <Icon name = "tag"/>
+        <Icon name = "right"/>
+      </router-link>
 
-      </div>
-      <div class = "newTag-wrapper">
-        <button class = "newTag" @click = "createTag">
-          新建标签
-        </button>
-      </div>
+    </div>
+    <div class = "newTag-wrapper">
+      <Button class = "newTag" @click = "createTag">
+        新建标签
+      </Button>
+    </div>
   </div>
 </template>
 
@@ -45,11 +42,11 @@ export default class EditTags extends Vue {
     const name = window.prompt('请输入标签名')
     if (name) {
       const message = tagListModel.create(name)
-      if (message==='duplicated'){
+      if (message === 'duplicated') {
         window.alert('标签名重复')
-      }else if (message === 'success'){
+      } else if (message === 'success') {
         window.alert('标签添加成功')
-      }else if (message==='blank'){
+      } else if (message === 'blank') {
         window.alert('标签名不能含有空格')
       }
     }
@@ -65,28 +62,44 @@ export default class EditTags extends Vue {
 
 <style lang = "scss" scoped>
 
-.edit{
+.edit {
   height: 100vh;
   background-color: rgb(245, 245, 245);
 }
+
 header {
+
   display: flex;
-  background-color: rgb(245,245,245);
+  text-align: center;
+  padding: 12px 16px;
+  align-items: center;
+  background-color:rgb(157,225,225);
   justify-content: space-between;
 
-  button {
-    background-color: rgb(157,225,225);
+  .title {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 30px;
+  }
+
+  .backIcon {
     color: black;
     font-weight: bold;
     font-size: 14px;
     border-radius: 4px;
     border: none;
     height: 30px;
-    padding: 0 16px;
+    width: 24px;
   }
+  .gap{
+    width: 24px;
+    height: 24px;
+  }
+
 }
 
 .tags {
+  margin-top: 8px;
   background-color: white;
   font-size: 14px;
   padding-left: 16px;
@@ -111,7 +124,7 @@ header {
 
 .newTag {
 
-  background-color: rgb(157,225,225);
+  background-color: rgb(157, 225, 225);
   color: black;
   font-size: 14px;
   border-radius: 4px;
