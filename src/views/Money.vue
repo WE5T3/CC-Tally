@@ -26,7 +26,6 @@ import {Component, Watch} from "vue-property-decorator"
 import {tagListModel} from "@/models/tagListModel";
 
 const recordList = recordListModel.fetch()
-const tagList= tagListModel.fetch()
 const version = window.localStorage.getItem('version')||'0'
 
 
@@ -41,14 +40,14 @@ type RecordItem = {
 @Component({components: {FormItem, DatePicker, Tags, Types, NumberPad}}
 )
 export default class Money extends Vue {
+  tags =window.tagList
   recordList: RecordItem[] =  recordList
   record: RecordItem = {type: '-', tags: [], date: '', notes: '', amount: 0,}
   // expenseTags: string[] = ['服饰', '饮食', '住房', '交通', '通讯', '学习', '水电', '日用', '娱乐', '美容', '医疗']
-  expenseTags= tagList
+  expenseTags= this.tags
   // incomeTags: string[] = ['生活费', '工资', '奖金', '副业', '报销', '借款', '投资', '租金', '分红']
-  incomeTags: string[] = ['生活费', '工资', '奖金', '副业', '报销', '借款', '投资', '租金', '分红']
-
-  onUpdateTags(value: string[]) {
+  incomeTags: string[] =['']
+      onUpdateTags(value: string[]) {
     this.record.tags = value
     // console.log(value)
   }

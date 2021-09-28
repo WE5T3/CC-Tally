@@ -1,6 +1,6 @@
 <template>
       <ul class = "tags">
-        <li v-for = "tag in tags" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag
+        <li v-for = "tag in tags" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag.name)>=0}" @click = "toggle(tag.name
     )">
           <Icon :name = 'tag.name'></Icon>
           {{ tag.name }}
@@ -30,7 +30,6 @@ export default class Tags extends Vue {
   addTags: string[] = []
 
   toggle(tag: string) {
-
     const index = this.selectedTags.indexOf(tag)
     if (this.selectedTags.indexOf(tag) >= 0) {
       this.selectedTags.splice(index, 1)

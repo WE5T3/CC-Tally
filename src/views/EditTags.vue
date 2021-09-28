@@ -7,14 +7,16 @@
     </header>
     <div class = "tags">
       <router-link class = "item" v-for = "tag in tags" :key = "tag.id" :to = "`/edittags/editlabel/${tag.id}`">
-        <span>{{ tag.name }}</span>
-        <Icon name = "tag"/>
+        <div class = "icon-wrapper">
+          <Icon :name = "tag.name"/>
+          <span>{{ tag.name }}</span>
+        </div>
         <Icon name = "right"/>
       </router-link>
 
     </div>
     <div class = "newTag-wrapper">
-      <Button class = "newTag" @click = "createTag">
+      <Button class = "newTag" @click.native = "createTag">
         新建标签
       </Button>
     </div>
@@ -25,11 +27,12 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import {tagListModel} from "@/models/tagListModel";
+import Button from "@/components/Button.vue";
 import createId from "@/lib/createId";
 
-tagListModel.fetch()
+
 @Component({
-  components: {}
+  components:{Button}
 })
 export default class EditTags extends Vue {
   tags =window.tagList
@@ -113,11 +116,16 @@ header {
     justify-content: space-between;
     border-bottom: 1px solid #e6e6e6;
 
+    .icon-wrapper{
+      display: flex;
+      align-items: center;
+
+    }
     svg {
-      width: 18px;
-      height: 18px;
-      color: #666666;
-      margin-right: 16px;
+      width: 20px;
+      height: 20px;
+      color: #282828;
+      margin-right: 4px;
     }
   }
 }
