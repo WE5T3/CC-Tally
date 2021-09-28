@@ -24,12 +24,12 @@
 <script lang = "ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import Tags from '@/components/Money/Tags.vue';
 import {tagListModel} from "@/models/tagListModel";
+import createId from "@/lib/createId";
 
 tagListModel.fetch()
 @Component({
-  components: {Tags}
+  components: {}
 })
 export default class EditTags extends Vue {
   tags = tagListModel.data

@@ -1,6 +1,6 @@
 <template>
       <ul class = "tags">
-        <li v-for = "tag in tagList" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag
+        <li v-for = "tag in tags" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag
     )">
           <Icon :name = 'tag.name'></Icon>
           {{ tag.name }}
@@ -17,11 +17,12 @@
 import Vue from "vue";
 import {Component, Prop} from "vue-property-decorator";
 import Icon from "@/components/Icon.vue";
-
+import {tagListModel} from '@/models/tagListModel'
 @Component({
   components: {Icon}
 })
 export default class Tags extends Vue {
+  tags = tagListModel.data
   @Prop({type: Boolean, default: false}) dynamic!: boolean;
   @Prop() readonly value!:string
   @Prop() readonly tagList: string[] | undefined
@@ -44,14 +45,6 @@ export default class Tags extends Vue {
   }
 
   edit() {
-    // const name = window.prompt('请输入标签名')
-    // if (name===''){
-    //   window.alert('标签名不能为空')
-    // }
-    // else if(this.tagList && name!==null){
-    //   console.log('name')
-    //   this.$emit('update:tagList',[...this.tagList,name])
-    // }
     this.$router.replace('/edittags');
   }
 }
