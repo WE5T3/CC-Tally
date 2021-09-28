@@ -32,7 +32,7 @@ tagListModel.fetch()
   components: {}
 })
 export default class EditTags extends Vue {
-  tags = tagListModel.data
+  tags =window.tagList
 
   back() {
     this.$router.replace('/money');
