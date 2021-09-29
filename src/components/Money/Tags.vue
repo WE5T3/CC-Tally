@@ -17,13 +17,20 @@
 import Vue from "vue";
 import {Component, Prop} from "vue-property-decorator";
 import Icon from "@/components/Icon.vue";
-import store from "@/store/index2";
 @Component({
-  components: {Icon}
+  components: {Icon},
+  computed:{
+    tagList(){
+      //TODO
+      // return this.$store.fetchTags()
+      return []
+    }
+  }
 })
 export default class Tags extends Vue {
-  tags = store.fetchTags()
+  // tags = store.fetchTags()
   @Prop({type: Boolean, default: false}) dynamic!: boolean;
+
   selectedTags: string[] = []
 
   toggle(tag: string) {

@@ -126,11 +126,7 @@ export default class numberPad extends Vue {
         okButton.innerHTML = this.svgEqual
       }
     }
-    if (okButton.innerHTML === this.svgEqual) {
-      this.computing = true
-    } else {
-      this.computing = false
-    }
+    this.computing = okButton.innerHTML === this.svgEqual;
     if (this.output.substr(-1, 1) === '+' && input === '+' || this.output.substr(-1, 1) === '-' && input === '-') {
       return;
     } else if (this.output.substr(-1, 1) === '+' && input === '-' || this.output.substr(-1, 1) === '-' && input === '+') {
