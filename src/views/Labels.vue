@@ -2,7 +2,6 @@
   <div>
     <Layout>
       <span>Labels.vue</span>
-      <!--    <a-date-picker/>-->
     </Layout>
   </div>
 </template>
