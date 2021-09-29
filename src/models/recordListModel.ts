@@ -9,6 +9,7 @@ const recordListModel = {
         const record2: RecordItem = clone(record)
         record2.createdAt = new Date().toLocaleDateString()
         this.data.push(record2)
+        this.save()
         // console.log(this.recordList)
     },
     fetch() {

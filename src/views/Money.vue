@@ -22,10 +22,9 @@ import Types from "@/components/Money/Types.vue"
 import Tags from "@/components/Money/Tags.vue"
 import DatePicker from "@/components/Money/DatePicker.vue"
 import FormItem from "@/components/Money/FormItem.vue"
-import {recordListModel} from "@/models/recordListModel"
-import {Component, Watch} from "vue-property-decorator"
+import {Component} from "vue-property-decorator"
 
-const recordList = recordListModel.fetch()
+
 const version = window.localStorage.getItem('version')||'0'
 
 
@@ -41,7 +40,7 @@ type RecordItem = {
 )
 export default class Money extends Vue {
   tags =window.tagList
-  recordList: RecordItem[] =  recordList
+  recordList= window.recordList
   record: RecordItem = {type: '-', tags: [], date: '', notes: '', amount: 0,}
   // expenseTags: string[] = ['服饰', '饮食', '住房', '交通', '通讯', '学习', '水电', '日用', '娱乐', '美容', '医疗']
   expenseTags= this.tags
@@ -64,14 +63,9 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    recordListModel.create(this.record)
+    window.createRecord(this.record)
   }
 
-
-  @Watch('recordList')
-  onRecordListChange() {
-    recordListModel.save()
-  }
 }
 </script>
 

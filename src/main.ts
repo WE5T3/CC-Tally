@@ -11,6 +11,8 @@ import ElementUI from 'element-ui';
 import '@/assets/style/element-variables.scss';
 
 import {tagListModel} from "@/models/tagListModel";
+import {List} from "ant-design-vue";
+import {recordListModel} from "@/models/recordListModel";
 
 Vue.use(ElementUI);
 
@@ -20,6 +22,13 @@ Vue.component('Nav', Nav)
 Vue.component('Layout', Layout)
 Vue.component('Icon', Icon)
 
+//record store
+window.recordList = recordListModel.fetch()
+window.createRecord = (record:RecordItem)=> recordListModel.create(record)
+
+
+
+//tag store
 window.tagList = tagListModel.fetch()
 window.createTag = (name:string) => {
     const message = tagListModel.create(name)
