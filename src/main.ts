@@ -6,17 +6,14 @@ import store from './store'
 import Nav from "@/components/Nav.vue";
 import Layout from "@/components/Layout.vue";
 import Icon from "@/components/Icon.vue";
+import ElementUI from 'element-ui';
 
-import 'ant-design-vue/dist/antd.css';
+import '@/assets/style/element-variables.scss';
 
 
-import moment from 'moment';
-import 'moment/locale/zh-cn';
 import {tagListModel} from "@/models/tagListModel";
 
-moment.locale('zh-cn'); //设置语言 或 moment.lang('zh-cn');
-
-Vue.prototype.$moment = moment;//挂载到当前vue实例对象
+Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 

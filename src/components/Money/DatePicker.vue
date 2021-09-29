@@ -31,10 +31,8 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
 
-Vue.use(ElementUI);
+
 @Component
 export default class DateSelector extends Vue {
 
