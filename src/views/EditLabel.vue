@@ -12,7 +12,7 @@
     </div>
     <div class = "button-wrapper">
       <Button @click.native = "removeLabel">删除标签</Button>
-      <Button @click.native = "cd">确定</Button>
+      <Button>确定</Button>
     </div>
   </div>
 </template>
@@ -20,50 +20,37 @@
 <script lang = "ts">
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
-import {tagListModel} from "@/models/tagListModel";
-import Tags from '@/components/Money/Tags.vue';
+
 import FormItem from "@/components/Money/FormItem.vue";
 import Button from "@/components/Button.vue";
 
 @Component({
-  components: {Button, FormItem, Tags}
+  components: {Button, FormItem}
 })
 export default class EditLabel extends Vue {
-  tags = tagListModel.data
-  tag?: { id: string, name: string } = undefined
-  tag1?: { id: string, name: string } = undefined
+  tag = window.findTag(this.$route.params.id)
 
-  cd() {
-    if (this.tag1) {
-      console.log(this.tag1.name)
-    }
-    // this.$router.replace('/edittags')
-  }
-
+  //钩子函数 created
   created() {
-    const id = this.$route.params.id
-    const tag = this.tags.filter(t => t.id === id)[0]
-    if (tag) {
-      this.tag = tag
-    } else {
+    if (!this.tag) {
       this.$router.replace('/404')
     }
   }
 
-
   updateLabel(name: string) {
     if (this.tag) {
-      tagListModel.update(this.tag.id, name)
-      // if(tagListModel.update(this.tag.id, name)===)
+      window.updateTag(this.tag.id, name)
     }
   }
 
   removeLabel() {
     if (this.tag) {
-      tagListModel.remove(this.tag.id)
+      if (window.removeTag(this.tag.id)) {
+        this.$router.replace('/edittags')
+      } else {
+        window.alert('删除失败')
+      }
     }
-    this.$router.replace('/edittags')
-
 
   }
 

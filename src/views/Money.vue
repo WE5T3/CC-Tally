@@ -24,7 +24,6 @@ import DatePicker from "@/components/Money/DatePicker.vue"
 import FormItem from "@/components/Money/FormItem.vue"
 import {recordListModel} from "@/models/recordListModel"
 import {Component, Watch} from "vue-property-decorator"
-import {tagListModel} from "@/models/tagListModel";
 
 const recordList = recordListModel.fetch()
 const version = window.localStorage.getItem('version')||'0'

@@ -3,7 +3,7 @@
     <span >日期</span>
     <el-date-picker
         class = "datePicker"
-        v-model = "value1"
+        v-model="value1"
         type = "date"
         size="small"
         :editable="false"
@@ -27,7 +27,8 @@ import 'moment/locale/zh-cn';
 
 @Component
 export default class DateSelector extends Vue {
-  value1 = ''
+  value1 =  new Date()
+
   onChange(date) {
     this.$emit('update:value', date)
     console.log(date)
