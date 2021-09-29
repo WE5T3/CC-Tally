@@ -23,6 +23,7 @@ import Tags from "@/components/Money/Tags.vue"
 import DatePicker from "@/components/Money/DatePicker.vue"
 import FormItem from "@/components/Money/FormItem.vue"
 import {Component} from "vue-property-decorator"
+import store from "@/store/index2";
 
 
 const version = window.localStorage.getItem('version')||'0'
@@ -39,8 +40,8 @@ type RecordItem = {
 @Component({components: {FormItem, DatePicker, Tags, Types, NumberPad}}
 )
 export default class Money extends Vue {
-  tags =window.tagList
-  recordList= window.recordList
+  tags =store.tagList
+  recordList= store.recordList
   record: RecordItem = {type: '-', tags: [], date: '', notes: '', amount: 0,}
   // expenseTags: string[] = ['服饰', '饮食', '住房', '交通', '通讯', '学习', '水电', '日用', '娱乐', '美容', '医疗']
   expenseTags= this.tags
@@ -63,7 +64,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    window.createRecord(this.record)
+    store.createRecord(this.record)
   }
 
 }

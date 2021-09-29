@@ -20,15 +20,15 @@
 <script lang = "ts">
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
-
 import FormItem from "@/components/Money/FormItem.vue";
 import Button from "@/components/Button.vue";
+import store from "@/store/index2";
 
 @Component({
   components: {Button, FormItem}
 })
 export default class EditLabel extends Vue {
-  tag = window.findTag(this.$route.params.id)
+  tag = store.findTag(this.$route.params.id)
 
   //钩子函数 created
   created() {
@@ -39,13 +39,13 @@ export default class EditLabel extends Vue {
 
   updateLabel(name: string) {
     if (this.tag) {
-      window.updateTag(this.tag.id, name)
+      store.updateTag(this.tag.id, name)
     }
   }
 
   removeLabel() {
     if (this.tag) {
-      if (window.removeTag(this.tag.id)) {
+      if ( store.removeTag(this.tag.id)) {
         this.$router.replace('/edittags')
       } else {
         window.alert('删除失败')

@@ -17,11 +17,12 @@
 import Vue from "vue";
 import {Component, Prop} from "vue-property-decorator";
 import Icon from "@/components/Icon.vue";
+import store from "@/store/index2";
 @Component({
   components: {Icon}
 })
 export default class Tags extends Vue {
-  tags = window.tagList
+  tags = store.tagList
   @Prop({type: Boolean, default: false}) dynamic!: boolean;
   @Prop() readonly value!:string
   @Prop() readonly tagList: string[] | undefined
