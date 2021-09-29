@@ -10,8 +10,6 @@ import Icon from "@/components/Icon.vue";
 import ElementUI from 'element-ui';
 import '@/assets/style/element-variables.scss';
 
-import {tagListModel} from "@/models/tagListModel";
-import {recordListModel} from "@/models/recordListModel";
 
 Vue.use(ElementUI);
 
