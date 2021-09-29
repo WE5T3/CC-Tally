@@ -5,11 +5,15 @@
 </template>
 
 <script>
-
+import store from '@/store/index2'
 
 export default {
   name: "App",
-  components: {},
+  data(){
+    return{
+      store:store
+    }
+  }
 }
 </script>
 

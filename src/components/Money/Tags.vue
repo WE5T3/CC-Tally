@@ -22,12 +22,9 @@ import store from "@/store/index2";
   components: {Icon}
 })
 export default class Tags extends Vue {
-  tags = store.tagList
+  tags = store.fetchTags()
   @Prop({type: Boolean, default: false}) dynamic!: boolean;
-  @Prop() readonly value!:string
-  @Prop() readonly tagList: string[] | undefined
   selectedTags: string[] = []
-  addTags: string[] = []
 
   toggle(tag: string) {
     const index = this.selectedTags.indexOf(tag)

@@ -2,7 +2,6 @@
 import clone from "@/lib/clone";
 
 const localStorageKeyName = 'recordList';
-let data: RecordItem[] | undefined = undefined
 
 const recordStore = {
     recordList:[] as RecordItem[],
