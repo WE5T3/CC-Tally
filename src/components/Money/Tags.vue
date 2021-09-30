@@ -17,6 +17,8 @@
 import Vue from "vue";
 import {Component, Prop} from "vue-property-decorator";
 import Icon from "@/components/Icon.vue";
+import {mixins} from "vue-class-component";
+import TagHelper from "@/mixins/TagHelper";
 
 @Component({
   components: {Icon},
@@ -26,7 +28,7 @@ import Icon from "@/components/Icon.vue";
     }
   }
 })
-export default class Tags extends Vue {
+export default class Tags extends mixins(TagHelper) {
   // tags = store.fetchTags()
   @Prop({type: Boolean, default: false}) dynamic!: boolean;
 
