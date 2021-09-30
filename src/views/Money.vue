@@ -3,11 +3,11 @@
     {{ record }}
     <Types :value.sync = "record.type"/>
     {{ recordList }}
-    <Tags  v-if = "record.type === '-'" @update:value = "onUpdateTags" :dynamic = "true"/>
+    <Tags v-if = "record.type === '-'" @update:value = "onUpdateTags" :dynamic = "true"/>
     <Tags v-else-if = "record.type === '+'" @update:value = "onUpdateTags"
           :dynamic = "true"/>
     <DatePicker @update:value = "onUpdateDate"/>
-    <FormItem field-name = "备注" placeholder = "#请输入备注#" v-model="record.notes" @update:value = "onUpdateNotes"/>
+    <FormItem field-name = "备注" placeholder = "#请输入备注#" v-model = "record.notes" @update:value = "onUpdateNotes"/>
     <NumberPad :value.sync = "record.amount" @submit = "saveRecord"/>
 
   </div>
@@ -22,28 +22,26 @@ import Tags from "@/components/Money/Tags.vue"
 import DatePicker from "@/components/Money/DatePicker.vue"
 import FormItem from "@/components/Money/FormItem.vue"
 import {Component} from "vue-property-decorator"
-import store from "@/store/index";
 
 
 const version = window.localStorage.getItem('version') || '0'
 
 @Component({
   components: {FormItem, DatePicker, Tags, Types, NumberPad},
-  computed:{
-    recordList(){
-      return this.$store.state.recordList
-    }
-  }
 })
 export default class Money extends Vue {
+  get recordList() {
+    return this.$store.state.recordList
+  }
 
   record: RecordItem = {type: '-', tags: [], date: '', notes: '', amount: 0,}
   // expenseTags: string[] = ['服饰', '饮食', '住房', '交通', '通讯', '学习', '水电', '日用', '娱乐', '美容', '医疗']
   // incomeTags: string[] = ['生活费', '工资', '奖金', '副业', '报销', '借款', '投资', '租金', '分红']
 
-  created(){
+  created() {
     this.$store.commit('fetchRecords')
   }
+
   onUpdateTags(value: string[]) {
     this.record.tags = value
     // console.log(value)
@@ -60,10 +58,10 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    this.$store.commit('createRecord',this.record)
+    this.$store.commit('createRecord', this.record)
     window.alert('记账成功')
-    this.record.notes=' '
-    this.record.tags=[]
+    this.record.notes = ' '
+    this.record.tags = []
   }
 
 

@@ -22,17 +22,17 @@ import TagHelper from "@/mixins/TagHelper";
 
 @Component({
   components: {Icon},
-  computed: {
-    tagList() {
-      return this.$store.state.tagList()
-    }
-  }
+
 })
 export default class Tags extends mixins(TagHelper) {
   // tags = store.fetchTags()
   @Prop({type: Boolean, default: false}) dynamic!: boolean;
 
   selectedTags: string[] = []
+  get TagList(){
+    return this.$store.state.tagList
+  }
+
 
   created() {
     this.$store.commit('fetchTags')
