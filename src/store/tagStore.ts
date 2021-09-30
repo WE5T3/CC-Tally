@@ -59,7 +59,6 @@ const tagStore = {
     },
     saveTags() {
         return localStorage.setItem(localStorageKeyName, JSON.stringify(this.tagList));
-
     }
 }
 tagStore.fetchTags()

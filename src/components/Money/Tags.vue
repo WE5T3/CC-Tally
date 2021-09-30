@@ -1,15 +1,15 @@
 <template>
-      <ul class = "tags">
-        <li v-for = "tag in tags" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag.name)>=0}" @click = "toggle(tag.name
+  <ul class = "tags">
+    <li v-for = "tag in tags" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag.name)>=0}" @click = "toggle(tag.name
     )">
-          <Icon :name = 'tag.name'></Icon>
-          {{ tag.name }}
-        </li>
-        <li v-if="dynamic" class = "edit" @click = "edit">
-          <Icon name = "右"/>
-          编辑
-        </li>
-      </ul>
+      <Icon :name = 'tag.name'></Icon>
+      {{ tag.name }}
+    </li>
+    <li v-if = "dynamic" class = "edit" @click = "edit">
+      <Icon name = "右"/>
+      编辑
+    </li>
+  </ul>
 
 </template>
 
@@ -17,13 +17,12 @@
 import Vue from "vue";
 import {Component, Prop} from "vue-property-decorator";
 import Icon from "@/components/Icon.vue";
+
 @Component({
   components: {Icon},
-  computed:{
-    tagList(){
-      //TODO
-      // return this.$store.fetchTags()
-      return []
+  computed: {
+    tagList() {
+      return this.$store.state.tagList()
     }
   }
 })
@@ -32,6 +31,10 @@ export default class Tags extends Vue {
   @Prop({type: Boolean, default: false}) dynamic!: boolean;
 
   selectedTags: string[] = []
+
+  created() {
+    this.$store.commit('fetchTags')
+  }
 
   toggle(tag: string) {
     const index = this.selectedTags.indexOf(tag)
@@ -43,7 +46,7 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.push(tag)
     }
-    this.$emit('update:value',this.selectedTags)
+    this.$emit('update:value', this.selectedTags)
 
   }
 
