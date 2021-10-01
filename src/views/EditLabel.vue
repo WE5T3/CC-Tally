@@ -27,13 +27,15 @@ import Button from "@/components/Button.vue";
   components: {Button, FormItem}
 })
 export default class EditLabel extends Vue {
-  get tag(){
+  get tag() {
     return this.$store.state.currentTag
   }
+
   //钩子函数 created
   created() {
     const id = this.$route.params.id
-    this.$store.commit('setCurrentTag',id)
+    this.$store.commit('fetchTags')
+    this.$store.commit('setCurrentTag', id)
     if (!this.tag) {
       this.$router.replace('/404')
     }
@@ -41,22 +43,15 @@ export default class EditLabel extends Vue {
 
   updateLabel(name: string) {
     if (this.tag) {
-      //TODO
+      this.$store.commit('updateTag', {id: this.tag.id, name})
       // store.updateTag(this.tag.id, name)
     }
   }
 
   removeLabel() {
     if (this.tag) {
-      //TODO
-      return
-      // if ( store.removeTag(this.tag.id)) {
-      //   this.$router.replace('/edittags')
-      // } else {
-      //   window.alert('删除失败')
-      // }
+      this.$store.commit('removeTag', this.tag.id)
     }
-
   }
 
   back() {
@@ -64,9 +59,9 @@ export default class EditLabel extends Vue {
     this.$router.replace('/edittags');
   }
 
-  ok() {
-    this.$router.replace('/money');
-  }
+  // ok() {
+  //   this.$router.replace('/money');
+  // }
 }
 </script>
 
