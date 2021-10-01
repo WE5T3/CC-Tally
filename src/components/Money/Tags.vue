@@ -1,6 +1,6 @@
 <template>
   <ul class = "tags">
-    <li v-for = "tag in tags" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag.name)>=0}" @click = "toggle(tag.name
+    <li v-for = "tag in TagList" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag.name)>=0}" @click = "toggle(tag.name
     )">
       <Icon :name = 'tag.name'></Icon>
       {{ tag.name }}
@@ -33,10 +33,12 @@ export default class Tags extends mixins(TagHelper) {
     return this.$store.state.tagList
   }
 
-
-  created() {
+  beforeCreate(){
     this.$store.commit('fetchTags')
   }
+  // created() {
+  //   this.$store.commit('fetchTags')
+  // }
 
   toggle(tag: string) {
     const index = this.selectedTags.indexOf(tag)
