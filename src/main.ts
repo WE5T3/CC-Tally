@@ -7,11 +7,6 @@ import Nav from "@/components/Nav.vue";
 import Layout from "@/components/Layout.vue";
 import Icon from "@/components/Icon.vue";
 
-import ElementUI from 'element-ui';
-import '@/assets/style/element-variables.scss';
-
-
-Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 

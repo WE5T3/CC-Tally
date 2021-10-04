@@ -23,6 +23,11 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import {DatePicker} from 'element-ui';
+import '@/assets/style/element-variables.scss';
+
+
+Vue.use(DatePicker);
 
 
 @Component

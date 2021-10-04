@@ -1,6 +1,6 @@
 <template>
   <nav id = "nav">
-    <router-link to = "/labels" class="item">
+    <router-link to = "/details" class="item">
       <Icon name = "detail"/>
       明细
     </router-link>

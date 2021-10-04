@@ -6,7 +6,7 @@
       <span class = "gap"></span>
     </header>
     <div class = "form-wrapper">
-      <FormItem :value = "currentTag.name"
+      <FormItem class="label-form" :value = "currentTag.name"
                 @update:value = "updateLabel"
                 field-name = "标签名" placeholder = "请输入标签名"/>
     </div>
@@ -68,19 +68,19 @@ export default class EditLabel extends Vue {
 <style lang = "scss" scoped>
 .single {
   height: 100vh;
-  //background-color: whitesmoke;
+  background-color: whitesmoke;
 }
 
 header {
   display: flex;
   text-align: center;
-  padding: 12px 16px;
+  padding: 12px 8px;
   align-items: center;
   background-color: rgb(157, 225, 225);
   justify-content: space-between;
 
   .title {
-    font-weight: bold;
+    color: black;
     font-size: 16px;
     line-height: 30px;
   }
@@ -101,9 +101,15 @@ header {
 }
 
 .form-wrapper {
+  display: flex;
+  justify-content:space-between;
   align-items: center;
   height: 44px;
-  margin-top: 8px;
+  line-height: 44px;
+  background-color: white;
+}
+.label-form{
+  flex-grow: 1;
   background-color: white;
 }
 

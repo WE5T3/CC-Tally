@@ -61,16 +61,16 @@ export default class EditTags extends mixins(TagHelper){
 }
 
 header {
-
   display: flex;
   text-align: center;
-  padding: 12px 16px;
+  padding: 12px 8px;
   align-items: center;
   background-color:rgb(157,225,225);
   justify-content: space-between;
 
   .title {
-    font-weight: bold;
+    //font-weight: bold;
+    color: black;
     font-size: 16px;
     line-height: 30px;
   }
@@ -90,9 +90,7 @@ header {
   }
 
 }
-
 .tags {
-  margin-top: 8px;
   background-color: white;
   font-size: 14px;
   padding-left: 16px;

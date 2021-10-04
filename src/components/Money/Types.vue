@@ -1,37 +1,44 @@
 <template>
-  <div class = "types">
-    <button class = "back" @click = "back">
-      <Icon name = "left"/>
-    </button>
-    <div class = "type">
-      <div class = "expense" :class = "value==='-' && 'selected'"
+  <div class = "header">
+    <Icon class = "backIcon" @click.native = "back" name = "left"/>
+    <div class = "title">
+      <div class="type"
+          :class = "{
+              selected:value==='-',
+              [classPrefix+'-type']:classPrefix
+           }"
            @click = "selectType('-')">支出
       </div>
-      <div class = "income" :class = "value==='+' && 'selected'"
+      <div class="type"
+          :class = "{
+              selected:value==='+',
+              [classPrefix+'-type']:classPrefix
+           }"
            @click = "selectType('+')">收入
       </div>
     </div>
-
+    <div class = "gap"></div>
   </div>
 </template>
 
 <script lang = "ts">
 import Vue from 'vue'
-import {Component,Prop,Watch} from "vue-property-decorator";
+import {Component, Prop} from "vue-property-decorator";
 
 @Component
 export default class Types extends Vue {
 
-  @Prop() readonly value!:string
+  @Prop(String) readonly value!: string
+  @Prop(String) classPrefix?: string
   back() {
-    this.$router.replace('/labels');
+    this.$router.replace('/details');
   }
 
   selectType(type: string) { //type只能是'-'和'+'中的一个
     if (type !== '-' && type !== '+') {
       throw new Error('type is unknown')
     }
-    this.$emit('update:value',type)
+    this.$emit('update:value', type)
   }
 
 }
@@ -42,47 +49,97 @@ export default class Types extends Vue {
 @import "~@/assets/style/helper.scss";
 
 
-.types {
+.header {
+  height: 54px;
   display: flex;
-  position: relative;
-  background-color: $bottomColor;
+  text-align: center;
+  padding: 12px 8px;
+  align-items: center;
+  background-color: rgb(157, 225, 225);
+  justify-content: space-between;
 
-  .back {
-    background-color: transparent;
-    border: none;
-    height: 29px;
-    position: absolute;
-    left: 6px;
-    bottom: 2px;
-
-    svg {
-      font-size: xx-large;
-      color: #000;
-    }
-  }
-
-  .type {
-    display: flex;
-    justify-content: center;
+  .title {
+    color: black;
     flex-grow: 1;
-    background-color: $bottomColor;
+    font-size: 18px;
+    line-height: 34px;
+    display: flex;
+    justify-content: space-evenly;
 
-    div {
-      font-size: 14px;
-      font-weight: bold;
-      text-align: center;
-      width: 100px;
-      border-radius: 7px;
-      margin: 0 1px;
-      padding: 4px;
-      background-color: #dbe8e7;
+    .type {
+      flex-grow: 0.5;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: center;
+      border-bottom: transparent solid 2px;
     }
-
     .selected {
-      background-color: $tfn2;
+      border-bottom: #4a4a4a solid 2px;
     }
+
   }
 
+  .backIcon {
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+    height: 30px;
+    width: 24px;
+  }
 
+  .gap {
+    width: 24px;
+    height: 24px;
+  }
 }
+
+//.header {
+//  display: flex;
+//  text-align: center;
+//  padding: 12px 16px;
+//  align-items: center;
+//  background-color: rgb(157, 225, 225);
+//  justify-content: space-between;
+//  position: relative;
+//
+//
+//  .back {
+//    border: 1px solid;
+//    color: black;
+//    font-weight: bold;
+//    font-size: 14px;
+//    background-color: transparent;
+//    //border: none;
+//    width: 24px;
+//
+//    svg {
+//      font-size: xx-large;
+//      color: #000;
+//    }
+//  }
+//
+//  .type {
+//    display: flex;
+//    justify-content: center;
+//    flex-grow: 1;
+//
+//    div {
+//      border: 1px solid;
+//      font-weight: bold;
+//      font-size: 16px;
+//      //line-height: 30px;
+//      text-align: center;
+//      width: 100px;
+//      //margin: 0 1px;
+//      //padding: 4px;
+//    }
+//
+//    .selected {
+//      border-bottom: black solid 2px;
+//    }
+//  }
+
+//}
 </style>
