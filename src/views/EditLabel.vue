@@ -86,6 +86,7 @@ header {
   }
 
   .backIcon {
+    color: black;
     font-weight: bold;
     font-size: 14px;
     border-radius: 4px;
