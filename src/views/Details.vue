@@ -1,8 +1,8 @@
 <template>
   <div>
     <Layout>
-      <Tabbar class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-      <Tabbar class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
+      <Tabbar class-prefix = "type" :data-source = "recordTypeList" :value.sync = "type"/>
+      <Tabbar class-prefix = "interval" :data-source = "intervalList" :value.sync = "interval"/>
     </Layout>
   </div>
 </template>
@@ -18,21 +18,24 @@ import recordTypeList from "@/constants/recordTypeList";
   components: {Tabbar}
 })
 export default class Details extends Vue {
-  type='-'
-  interval='day'
+  type = '-'
+  interval = 'day'
   intervalList = intervalList
-  recordTypeList= recordTypeList
+  recordTypeList = recordTypeList
 }
 </script>
 
 <style lang = "scss" scoped>
 
 ::v-deep {
-  .type-item{
-
+  .interval-tabs {
+    background-color: darken(rgb(157, 225, 225), 6%);
+    height: 36px;
   }
-  .interval-item{
 
+  .interval-item {
+    align-items: center;
+    height: 36px;
   }
 }
 
