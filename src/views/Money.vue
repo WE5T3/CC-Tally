@@ -6,7 +6,7 @@
       <Tabbar class="type-bar" :data-source = "recordTypeList" :value.sync = "record.type"/>
       <div class = "gap"></div>
     </div>
-    {{ recordList }}
+<!--    {{ recordList }}-->
     <Tags v-if = "record.type === '-'" @update:value = "onUpdateTags" :dynamic = "true"/>
     <Tags v-else-if = "record.type === '+'" @update:value = "onUpdateTags"
           :dynamic = "true"/>
@@ -64,9 +64,16 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    if (this.record.date===''){
-      this.record.date = new Date().toLocaleDateString()
+    if (this.record.date === '' || this.record.date === null) {
+      let dateStr = new Date(+new Date(new Date().toJSON()) + 8 * 3600 * 1000)
+      // 使用split方法
+      // this.record.date = dateStr.toISOString().split('T')[0]+" "+dateStr.toISOString().split('T')[1].split('.')[0]
+
+      //使用正则
+      this.record.date = dateStr.toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+      // console.log(this.record.date)
     }
+
     this.$store.commit('createRecord', this.record)
     window.alert('记账成功')
     this.record.notes = ''
