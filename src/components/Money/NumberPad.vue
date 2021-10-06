@@ -55,7 +55,6 @@ export default class numberPad extends Vue {
     // const input = button.textContent as string  //两种写法
     const input = button.textContent!
 
-
     //长度判断
     if (this.output.indexOf('+' || '-') < 0 && this.output.length >= 18) {
       alert('输入数值太大,放不下啦!')
@@ -97,7 +96,6 @@ export default class numberPad extends Vue {
     this.output += input
 
   }
-
 
   remove() {
     const okButton = document.querySelector('#ok')!
@@ -144,10 +142,7 @@ export default class numberPad extends Vue {
 
   }
 
-
-
   ok() {
-
     const okButton = document.querySelector('#ok')!
     okButton.innerHTML = this.svgSubmit
 

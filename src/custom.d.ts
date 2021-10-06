@@ -4,7 +4,6 @@ type RecordItem = {
     date: string
     notes: string
     amount: number
-    createdAt?: Date | string
 }
 type Tag = {
     id: string

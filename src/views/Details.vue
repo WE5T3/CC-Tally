@@ -3,6 +3,18 @@
     <Layout>
       <Tabbar class-prefix = "type" :data-source = "recordTypeList" :value.sync = "type"/>
       <Tabbar class-prefix = "interval" :data-source = "intervalList" :value.sync = "interval"/>
+      <div>
+        type:{{ type }}
+        <br>
+        interval:{{ interval }}
+      </div>
+      <div>
+        <ol>
+          <li v-for="item in result" :key="item.id">
+            {{ item }}
+          </li>
+        </ol>
+      </div>
     </Layout>
   </div>
 </template>
@@ -18,6 +30,15 @@ import recordTypeList from "@/constants/recordTypeList";
   components: {Tabbar}
 })
 export default class Details extends Vue {
+  get recordList() {
+    return this.$store.state.recordList
+  }
+  get result() {
+    return this.recordList
+  }
+  created(){
+    this.$store.commit('fetchRecords')
+  }
   type = '-'
   interval = 'day'
   intervalList = intervalList

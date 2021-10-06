@@ -26,7 +26,6 @@ const store = new Vuex.Store({
         },
         createRecord(state, record: RecordItem) {
             const record2: RecordItem = clone(record)
-            record2.createdAt = new Date().toLocaleDateString()
             state.recordList.push(record2)
             console.log(state.recordList)
             store.commit('saveRecords')

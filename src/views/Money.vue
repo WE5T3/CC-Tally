@@ -64,10 +64,12 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
+    if (this.record.date===''){
+      this.record.date = new Date().toLocaleDateString()
+    }
     this.$store.commit('createRecord', this.record)
     window.alert('记账成功')
-    this.record.notes = ' '
-    this.record.tags = []
+    this.record.notes = ''
   }
   back(){
     this.$router.replace('/details')
