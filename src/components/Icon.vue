@@ -15,7 +15,7 @@ try {
 
 export default {
   props: ['name'],
-  name: "Icon"
+  name: "Icon",
 }
 </script>
 

@@ -11,6 +11,7 @@
         placeholder = "请选择日期"
         @change = "onChange"
         @focus = 'preventPop'
+        :picker-options = "pickerOptions"
     >
     </el-date-picker>
     <span>日期</span>
@@ -22,8 +23,7 @@
 
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import moment from 'moment';
-import 'moment/locale/zh-cn';
+
 import {DatePicker} from 'element-ui';
 import '@/assets/style/element-variables.scss';
 

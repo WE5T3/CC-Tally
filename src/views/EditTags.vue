@@ -1,7 +1,7 @@
 <template>
   <div class = "edit">
     <header>
-      <Icon class= "backIcon"  name="left" @click.native="back"/>
+      <Icon class = "backIcon" name = "left" @click.native = "back"/>
       <span class = "title">选择标签</span>
       <span class = "gap"></span>
     </header>
@@ -24,21 +24,20 @@
 </template>
 
 <script lang = "ts">
-import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Button from "@/components/Button.vue";
 import TagHelper from "@/mixins/TagHelper";
 import {mixins} from "vue-class-component";
 
 @Component({
-  components:{Button},
+  components: {Button},
 })
-export default class EditTags extends mixins(TagHelper){
-  get tags(){
+export default class EditTags extends mixins(TagHelper) {
+  get tags() {
     return this.$store.state.tagList
   }
 
-  beforeCreate(){
+  beforeCreate() {
     this.$store.commit('fetchTags')
   }
 
@@ -65,7 +64,7 @@ header {
   text-align: center;
   padding: 12px 8px;
   align-items: center;
-  background-color:rgb(157,225,225);
+  background-color: rgb(157, 225, 225);
   justify-content: space-between;
 
   .title {
@@ -84,12 +83,14 @@ header {
     height: 30px;
     width: 24px;
   }
-  .gap{
+
+  .gap {
     width: 24px;
     height: 24px;
   }
 
 }
+
 .tags {
   background-color: white;
   font-size: 14px;
@@ -104,11 +105,12 @@ header {
     justify-content: space-between;
     border-bottom: 1px solid #e6e6e6;
 
-    .icon-wrapper{
+    .icon-wrapper {
       display: flex;
       align-items: center;
 
     }
+
     svg {
       width: 20px;
       height: 20px;

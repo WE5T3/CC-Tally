@@ -41,6 +41,7 @@ import {Component, Prop} from "vue-property-decorator";
 
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+
 moment.locale('zh-cn'); //设置语言 或 moment.lang('zh-cn');
 @Component
 export default class numberPad extends Vue {
@@ -139,7 +140,6 @@ export default class numberPad extends Vue {
     } else {
       this.output += input
     }
-
   }
 
   ok() {
@@ -157,9 +157,9 @@ export default class numberPad extends Vue {
       this.$emit('update:value', this.output)
       this.$emit('submit', this.output)
       this.output = '0'
-    }else {
+    } else {
       this.output = eval(this.output).toFixed(2)
-      this.computing=false
+      this.computing = false
     }
   }
 
