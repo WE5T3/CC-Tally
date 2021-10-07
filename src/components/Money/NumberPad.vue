@@ -39,13 +39,9 @@
 import Vue from 'vue'
 import {Component, Prop} from "vue-property-decorator";
 
-import moment from 'moment';
-import 'moment/locale/zh-cn';
-
-moment.locale('zh-cn'); //设置语言 或 moment.lang('zh-cn');
 @Component
 export default class numberPad extends Vue {
-  @Prop() readonly value!: number
+  @Prop(Number) readonly value!: number
   computing: boolean = false
   output: string = this.value.toString()
   svgEqual = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#等于"></use></svg>'
@@ -154,8 +150,9 @@ export default class numberPad extends Vue {
 
     if (!this.computing) {
       this.output = eval(this.output).toFixed(2)
-      this.$emit('update:value', this.output)
-      this.$emit('submit', this.output)
+      const number = parseFloat(this.output)
+      this.$emit('update:value', number)
+      this.$emit('submit', number)
       this.output = '0'
     } else {
       this.output = eval(this.output).toFixed(2)
