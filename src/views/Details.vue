@@ -12,8 +12,8 @@
               <li v-for = "item in group.items" :key = "item.id"
                   class = "record">
                 <span class = "tags">
-                   <Icon :name = "tagString(item.tags)"/>
-                    {{ tagString(item.tags) }}
+                   <Icon class = "icon" :name = "tagString(item.tags)"/>
+                   {{ tagString(item.tags) }}
                 </span>
                 <span class = "notes">{{ item.notes }} </span>
                 <span class = "amount">￥{{ item.amount }} </span>
@@ -29,18 +29,18 @@
 <script lang = "ts">
 import Vue from 'vue'
 import {Component} from "vue-property-decorator"
-import Tabbar from "@/components/Tabbar.vue";
-import recordTypeList from "@/constants/recordTypeList";
-import dayjs from "dayjs";
-import clone from "@/lib/clone";
-
+import Tabbar from "@/components/Tabbar.vue"
+import recordTypeList from "@/constants/recordTypeList"
+import dayjs from "dayjs"
+import clone from "@/lib/clone"
 
 @Component({
   components: {Tabbar}
 })
 export default class Details extends Vue {
+
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? '无' : tags.join(',');
+    return tags.length === 0 ? '无' : tags.join(',')
   }
 
   beautify(string: string) {
@@ -53,9 +53,9 @@ export default class Details extends Vue {
     } else if (day.isSame(now.subtract(2, 'day'), 'day')) {
       return '前天'
     } else if (day.isSame(now, 'year')) {
-      return day.format('M-DD')
+      return day.format('M月D日')
     } else {
-      return string
+      return day.format('YYYY年M月D日')
     }
   }
 
@@ -64,35 +64,42 @@ export default class Details extends Vue {
   }
 
   get groupList() {
+
     const {recordList} = this
-    type HashTableValue = { title: string, items: RecordItem[] }
-    if (recordList.length === 0) {return []}
     const newList = clone(recordList)
         .filter(r => r.type === this.type)
         .sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf())
+
+    if (newList.length === 0) {return []}
+
     type Result = {
-      title: string | null,
+      title: string,
       total?: number,
       items: RecordItem[]
     }[]
-    const result: Result = [{title: recordList[0].date, items: [recordList[0]]}]
-    for (let i = 0; i < newList.length; i++) {
+
+    const result: Result = [{title: dayjs(newList[0].date).format('YYYY-MM-DD'), items: [newList[0]]}]
+
+    for (let i = 1; i < newList.length; i++) {
       const current = newList[i]
       const last = result[result.length - 1]
+
       if (dayjs(last.title).isSame(dayjs(current.date), 'day')) {
         last.items.push(current)
       } else {
-        result.push({title: current.date!.split(' ')[0], items: [current]})
+        result.push({title: dayjs(current.date).format('YYYY-MM-DD'), items: [current]})
       }
-
     }
-    const x = result.map(group => {
-      group.total = group.items.reduce((sum, item) => sum + item.amount, 0)
+    result.map(group => {
+      group.total = group.items.reduce((sum, item) => {
+        return sum + item.amount
+      }, 0)
     })
+
     return result
   }
 
-  created() {
+  beforeCreate() {
     this.$store.commit('fetchRecords')
   }
 
@@ -134,6 +141,10 @@ export default class Details extends Vue {
   white-space: nowrap;
   display: flex;
   align-items: center;
+
+  .icon {
+    margin-right: 4px;
+  }
 }
 
 .record {
@@ -158,7 +169,6 @@ export default class Details extends Vue {
 }
 
 .amount {
-
   display: flex;
   align-items: center;
 }

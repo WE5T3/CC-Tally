@@ -1,6 +1,6 @@
 <template>
   <div class = "money">
-    {{ record }}
+<!--    {{ record }}-->
     <div class="type">
       <Icon class = "back-icon" @click.native = "back" name = "left"/>
       <Tabbar class="type-bar" :data-source = "recordTypeList" :value.sync = "record.type"/>
