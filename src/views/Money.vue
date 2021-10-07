@@ -1,17 +1,17 @@
 <template>
   <div class = "money">
-<!--    {{ record }}-->
-    <div class="type">
+    <!--    {{ record }}-->
+    <div class = "type">
       <Icon class = "back-icon" @click.native = "back" name = "left"/>
-      <Tabbar class="type-bar" :data-source = "recordTypeList" :value.sync = "record.type"/>
+      <Tabbar class = "type-bar" :data-source = "recordTypeList" :value.sync = "record.type"/>
       <div class = "gap"></div>
     </div>
-<!--    {{ recordList }}-->
-    <Tags v-if = "record.type === '-'" @update:value = "onUpdateTags" :dynamic = "true"/>
-    <Tags v-else-if = "record.type === '+'" @update:value = "onUpdateTags"
+    <!--    {{ recordList }}-->
+    <Tags type = "-" :TagList = "tagList" v-if = "record.type === '-'" :value.sync = "record.tags" :dynamic = "true"/>
+    <Tags type = "-" :TagList = "incomeTags" v-else-if = "record.type === '+'" :value.sync = "record.tags"
           :dynamic = "true"/>
     <DatePicker @update:value = "onUpdateDate"/>
-    <FormItem field-name = "备注" placeholder = "#请输入备注#" v-model = "record.notes" @update:value = "onUpdateNotes"/>
+    <FormItem field-name = "备注" placeholder = "#请输入备注#" :value.sync = "record.notes"/>
     <NumberPad :value.sync = "record.amount" @submit = "saveRecord"/>
 
   </div>
@@ -24,9 +24,10 @@ import NumberPad from "@/components/Money/NumberPad.vue"
 import Tags from "@/components/Money/Tags.vue"
 import DatePicker from "@/components/Money/DatePicker.vue"
 import FormItem from "@/components/Money/FormItem.vue"
-import {Component} from "vue-property-decorator"
-import Tabbar from "@/components/Tabbar.vue";
-import recordTypeList from "@/constants/recordTypeList";
+import {Component, Watch} from "vue-property-decorator"
+import Tabbar from "@/components/Tabbar.vue"
+import recordTypeList from "@/constants/recordTypeList"
+import {defaultIncomeTags} from "@/constants/defaultTagList"
 
 
 const version = window.localStorage.getItem('version') || '0'
@@ -35,9 +36,15 @@ const version = window.localStorage.getItem('version') || '0'
   components: {Tabbar, FormItem, DatePicker, Tags, NumberPad},
 })
 export default class Money extends Vue {
-  recordTypeList= recordTypeList
+  recordTypeList = recordTypeList
+  incomeTags = defaultIncomeTags
+
   get recordList() {
     return this.$store.state.recordList
+  }
+
+  get tagList(): Tag[] {
+    return this.$store.state.tagList
   }
 
   record: RecordItem = {type: '-', tags: [], date: '', notes: '', amount: 0,}
@@ -48,22 +55,18 @@ export default class Money extends Vue {
     this.$store.commit('fetchRecords')
   }
 
-  onUpdateTags(value: Tag[]) {
-    this.record.tags = value
-    // console.log(value)
-  }
-
-  onUpdateNotes(value: string) {
-    this.record.notes = value
-    // console.log(value)
-  }
-
   onUpdateDate(value: string) {
     this.record.date = value
     // console.log(value)
   }
 
   saveRecord() {
+    if (!this.record.tags || this.record.tags.length === 0) {
+      return window.alert('请选择一个标签')
+    }
+    if (this.record.amount === 0) {
+      return window.alert('金额不能为0')
+    }
     if (this.record.date === '' || this.record.date === null) {
       let dateStr = new Date(+new Date(new Date().toJSON()) + 8 * 3600 * 1000)
       // 使用split方法
@@ -77,12 +80,22 @@ export default class Money extends Vue {
     this.$store.commit('createRecord', this.record)
     window.alert('记账成功')
     this.record.notes = ''
-  }
-  back(){
     this.$router.replace('/details')
   }
 
+  back() {
+    this.$router.replace('/details')
+  }
 
+  @Watch('record.type')
+  onTypeChange(type: string) {
+    console.log(this.record.tags)
+    if (type === '+') {
+      this.record.tags[0] = '工资'
+    } else if (type === '-') {
+      this.record.tags[0] = '饮食'
+    }
+  }
 }
 </script>
 

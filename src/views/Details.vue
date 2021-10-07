@@ -5,7 +5,7 @@
       <div>
       </div>
       <div>
-        <ol>
+        <ol v-if = "groupList.length>0">
           <li v-for = "(group,index) in groupList" :key = "index">
             <h3 class = "title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
             <ol>
@@ -21,6 +21,10 @@
             </ol>
           </li>
         </ol>
+        <div v-else class = "nothing">
+          暂无账目记录,快去记一笔吧~
+          <Icon class = "icon-nothing" name = "暂无记录"/>
+        </div>
       </div>
     </Layout>
   </div>
@@ -172,4 +176,19 @@ export default class Details extends Vue {
   display: flex;
   align-items: center;
 }
+
+.nothing {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+
+  .icon-nothing {
+    margin-top: 10px;
+    font-size: 100px;
+  }
+}
+
 </style>

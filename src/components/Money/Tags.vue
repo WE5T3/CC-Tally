@@ -1,7 +1,7 @@
 <template>
   <ul class = "tags">
-    <li v-for = "tag in TagList" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag.name)>=0}" @click = "toggle(tag.name
-    )">
+    <li v-for = "tag in TagList" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag.name)>=0}"
+        @click = "toggle(tag.name)">
       <Icon :name = 'tag.name'></Icon>
       {{ tag.name }}
     </li>
@@ -14,11 +14,10 @@
 </template>
 
 <script lang = "ts">
-import Vue from "vue";
-import {Component, Prop} from "vue-property-decorator";
-import Icon from "@/components/Icon.vue";
-import {mixins} from "vue-class-component";
-import TagHelper from "@/mixins/TagHelper";
+import {Component, Prop} from "vue-property-decorator"
+import Icon from "@/components/Icon.vue"
+import {mixins} from "vue-class-component"
+import TagHelper from "@/mixins/TagHelper"
 
 @Component({
   components: {Icon},
@@ -26,19 +25,21 @@ import TagHelper from "@/mixins/TagHelper";
 })
 export default class Tags extends mixins(TagHelper) {
   // tags = store.fetchTags()
-  @Prop({type: Boolean, default: false}) dynamic!: boolean;
+  @Prop({type: Boolean, default: false}) dynamic!: boolean
+  @Prop() type!: string
+  @Prop() TagList!: Tag[]
 
   selectedTags: string[] = []
-  get TagList(){
-    return this.$store.state.tagList
+
+  mounted() {
+    console.log(this.selectedTags)
+    this.selectedTags = ['饮食']
+    this.$emit('update:value', this.selectedTags)
   }
 
-  beforeCreate(){
+  beforeCreate() {
     this.$store.commit('fetchTags')
   }
-  // created() {
-  //   this.$store.commit('fetchTags')
-  // }
 
   toggle(tag: string) {
     const index = this.selectedTags.indexOf(tag)
@@ -55,7 +56,7 @@ export default class Tags extends mixins(TagHelper) {
   }
 
   edit() {
-    this.$router.replace('/edittags');
+    this.$router.replace('/edittags')
   }
 }
 </script>

@@ -1,16 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import clone from "@/lib/clone";
-import createId from "@/lib/createId";
-import router from "@/router";
+import clone from "@/lib/clone"
+import createId from "@/lib/createId"
+import router from "@/router"
+import {defaultExpenseTags} from "@/constants/defaultTagList"
 
 Vue.use(Vuex)
 
 
 const store = new Vuex.Store({
     state: {
-        recordList: [],
-        tagList: [],
+        recordList: JSON.parse(window.localStorage.getItem('record-list') || '[]'),
+        tagList: JSON.parse(window.localStorage.getItem('tagList') || '0') || defaultExpenseTags,
         currentTag: undefined
     } as RootState,
     mutations: {
@@ -29,10 +30,18 @@ const store = new Vuex.Store({
         },
         saveRecords(state) {
             window.localStorage.setItem('recordList',
-                JSON.stringify(state.recordList));
+                JSON.stringify(state.recordList))
         },
         fetchTags(state) {
-            return state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]')
+            state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]')
+            if (!state.tagList || state.tagList.length === 0) {
+                store.commit('setDefault')
+            }
+        },
+        setDefault() {
+            for (let i = 0; i < defaultExpenseTags.length; i++) {
+                store.commit('createTag', defaultExpenseTags[i].name)
+            }
         },
         createTag(state, name: string) {
             const names = state.tagList.map(item => item.name)
@@ -46,7 +55,6 @@ const store = new Vuex.Store({
                 const id = createId().toString()
                 state.tagList.push({id, name: name})
                 store.commit('saveTags')
-                window.alert('标签添加成功')
                 // return 'success'
             }
         },
@@ -83,7 +91,7 @@ const store = new Vuex.Store({
             }
         },
         saveTags(state) {
-            window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
+            window.localStorage.setItem('tagList', JSON.stringify(state.tagList))
         },
     }
 
