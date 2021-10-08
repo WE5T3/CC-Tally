@@ -1,21 +1,37 @@
 <template>
   <div>
     <Layout>
-      <div class = "type-bar">
-        本月总计:{{ beautifyAmount(this.amountTotal1) }}
-        纯支出:￥{{ Math.abs(this.expenseTotal1) }}
-        纯收入:￥{{ this.incomeTotal1 }}
+      <div class = "header">
+        <Icon name = "cc"/>
+        CC记账
+      </div>
+      <div class = "month">
         <el-date-picker
-            class = "datePicker"
+            class = "month-picker"
             v-model = "month1"
             size = "small"
             :editable = "false"
+            :clearable = 'false'
             value-format = "yyyy-MM"
             :picker-options = "pickerOptions"
             type = "month"
             placeholder = "选择月">
         </el-date-picker>
       </div>
+      <ol class = "type-bar">
+        <li>
+          <span class = "text">总计</span>
+          <span class = "number">￥{{ this.amountTotal1 }}</span>
+        </li>
+        <li>
+          <span class = "text">支出</span>
+          <span class = "number">￥{{ Math.abs(this.expenseTotal1) }}</span>
+        </li>
+        <li>
+          <span class = "text">收入</span>
+          <span class = "number">￥{{ Math.abs(this.incomeTotal1) }}</span>
+        </li>
+      </ol>
       <div>
         <ol class = "details" v-if = "groupList.length>0">
           <li v-for = "(group,index) in groupList" :key = "index">
@@ -86,9 +102,9 @@ export default class Details extends Vue {
 
   beautifyAmount(number: number) {
     if (number <= 0) {
-      return '支出 ￥' + (0 - number)
+      return '支出 ￥' + Math.abs(number).toFixed(2)
     } else {
-      return '收入 ￥' + number
+      return '收入 ￥' + number.toFixed(2)
     }
   }
 
@@ -158,30 +174,22 @@ export default class Details extends Vue {
       totalList: [],
     }
 
-
     result.map(group => {
       group.expenseTotal = group.items.filter(r => r.type === '-').reduce((sum, item) => {
         return eval(sum + (item.type + item.amount))
       }, 0)
-    })
-    result.map(group => {
       group.incomeTotal = group.items.filter(r => r.type === '+').reduce((sum, item) => {
         return eval(sum + (item.type + item.amount))
       }, 0)
     })
+
     result.map(group => {
       summary.totalList.push(group.total!)
-    })
-    this.amountTotal1 = eval(summary.totalList.join("+")).toFixed(2)
-
-    result.map(group => {
       summary.expenseTotalList.push(group.expenseTotal!)
-    })
-    this.expenseTotal1 = eval(summary.expenseTotalList.join("+")).toFixed(2)
-
-    result.map(group => {
       summary.incomeTotalList.push(group.incomeTotal!)
     })
+    this.amountTotal1 = eval(summary.totalList.join("+")).toFixed(2)
+    this.expenseTotal1 = eval(summary.expenseTotalList.join("+")).toFixed(2)
     this.incomeTotal1 = eval(summary.incomeTotalList.join("+")).toFixed(2)
     return result
   }
@@ -198,22 +206,82 @@ export default class Details extends Vue {
 <style lang = "scss" scoped>
 @import "~@/assets/style/helper.scss";
 
-.type-bar {
+.header {
+  color: black;
+  font-family: $font-kai;
+  font-size: larger;
   position: fixed;
+  width: 100%;
   top: 0;
   left: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 16px;
+  background-color: rgb(157, 225, 225);
+}
+
+.month {
+  position: fixed;
   width: 100%;
-  min-height: 54px;
+  top: 96+8px;
+  left: 0;
+  z-index: 1;
+  background-color: whitesmoke;
+  padding: 2px 0;
+
+  .month-picker ::v-deep {
+    .el-input__inner {
+      border: none;
+      width: 200%;
+    }
+  }
+}
+
+.type-bar {
+  position: fixed;
+  top: 8px;
+  left: 0;
+  width: 100%;
+  min-height: 96px;
   z-index: 1;
   background-color: rgb(157, 225, 225);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+
+  li {
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+
+    &:nth-child(1) {
+      padding-right: 2px;
+      border-right: 2px dotted;
+    }
+
+    &:nth-child(2) {
+      border-right: 2px dotted;
+    }
+
+    span {
+      padding-left: 14px;
+    }
+
+    .text {
+      font-size: 14px;
+    }
+
+    .number {
+      font-weight: bold;
+    }
+  }
 
 }
 
 .details {
-  margin-top: 54px;
+  margin-top: 96+36+8px;
 }
 
 .title {

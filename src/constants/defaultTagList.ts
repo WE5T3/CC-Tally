@@ -66,6 +66,6 @@ const defaultIncomeTags = [
     {name: '租金', value: '租金'},
     {name: '奖金', value: '奖金'},
     {name: '副业', value: '副业'},
-    {name: '理财收入', value: '投资'},
+    {name: '理财收入', value: '理财收入'},
 ]
 export {defaultExpenseTags, defaultIncomeTags, repositoryTags}

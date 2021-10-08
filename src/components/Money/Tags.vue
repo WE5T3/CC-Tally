@@ -32,7 +32,6 @@ export default class Tags extends mixins(TagHelper) {
   selectedTags: string[] = []
 
   mounted() {
-    console.log(this.selectedTags)
     this.selectedTags = ['饮食']
     this.$emit('update:value', this.selectedTags)
   }

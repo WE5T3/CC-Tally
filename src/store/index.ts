@@ -24,9 +24,9 @@ const store = new Vuex.Store({
         createRecord(state, record: RecordItem) {
             const record2: RecordItem = clone(record)
             state.recordList.push(record2)
-            console.log(state.recordList)
+            // console.log(state.recordList)
             store.commit('saveRecords')
-            // recordStore.saveRecords()
+
         },
         saveRecords(state) {
             window.localStorage.setItem('recordList',
@@ -34,7 +34,7 @@ const store = new Vuex.Store({
         },
         fetchTags(state) {
             state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]')
-            console.log(state.tagList)
+            // console.log(state.tagList)
             state.tagList = state.tagList.filter(item => item.name !== '')
             if (!state.tagList || state.tagList.length === 0) {
                 store.commit('setDefault')
@@ -51,13 +51,10 @@ const store = new Vuex.Store({
             const defaultNames = defaultExpenseTags.map(item => item.name)
             if (name === ' ' || name.indexOf(' ') >= 0) {
                 window.alert('标签名不能含有空格')
-                // return 'blank'
             } else if (names.indexOf(name) >= 0) {
                 window.alert('标签名重复')
-                // return 'duplicated'
             } else {
                 const id = createId().toString()
-                console.log(id)
                 if (Number(id) >= 12) {
                     if (defaultNames.indexOf(name) >= 0 || repositoryNames.indexOf(name) >= 0) {
                         state.tagList.push({id, name: name, value: name})
@@ -68,7 +65,6 @@ const store = new Vuex.Store({
                     state.tagList.push({id, name: name, value: name})
                 }
                 store.commit('saveTags')
-                // return 'success'
             }
         },
         updateTag(state, payload: { id: string, name: string }) {

@@ -88,7 +88,7 @@ export default class Money extends Vue {
 
   @Watch('record.type')
   onTypeChange(type: string) {
-    console.log(this.record.tags)
+
     if (type === '+') {
       this.record.tags[0] = '工资'
     } else if (type === '-') {
