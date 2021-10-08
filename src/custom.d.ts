@@ -13,6 +13,7 @@ type RootState = {
 type Tag = {
     id: string
     name: string
+    value: string
 }
 
 

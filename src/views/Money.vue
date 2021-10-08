@@ -9,7 +9,7 @@
     <!--    {{ recordList }}-->
     <Tags type = "-" :TagList = "tagList" v-if = "record.type === '-'" :value.sync = "record.tags" :dynamic = "true"/>
     <Tags type = "-" :TagList = "incomeTags" v-else-if = "record.type === '+'" :value.sync = "record.tags"
-          :dynamic = "true"/>
+          :dynamic = "false"/>
     <DatePicker @update:value = "onUpdateDate"/>
     <FormItem field-name = "备注" placeholder = "#请输入备注#" :value.sync = "record.notes"/>
     <NumberPad :value.sync = "record.amount" @submit = "saveRecord"/>
@@ -27,7 +27,7 @@ import FormItem from "@/components/Money/FormItem.vue"
 import {Component, Watch} from "vue-property-decorator"
 import Tabbar from "@/components/Tabbar.vue"
 import recordTypeList from "@/constants/recordTypeList"
-import {defaultIncomeTags} from "@/constants/defaultTagList"
+import {defaultExpenseTags, defaultIncomeTags} from "@/constants/defaultTagList"
 
 
 const version = window.localStorage.getItem('version') || '0'
@@ -38,6 +38,7 @@ const version = window.localStorage.getItem('version') || '0'
 export default class Money extends Vue {
   recordTypeList = recordTypeList
   incomeTags = defaultIncomeTags
+  expenseTags = defaultExpenseTags
 
   get recordList() {
     return this.$store.state.recordList
@@ -48,8 +49,6 @@ export default class Money extends Vue {
   }
 
   record: RecordItem = {type: '-', tags: [], date: '', notes: '', amount: 0,}
-  // expenseTags: string[] = ['服饰', '饮食', '住房', '交通', '通讯', '学习', '水电', '日用', '娱乐', '美容', '医疗']
-  // incomeTags: string[] = ['生活费', '工资', '奖金', '副业', '报销', '借款', '投资', '租金', '分红']
 
   created() {
     this.$store.commit('fetchRecords')
@@ -80,7 +79,7 @@ export default class Money extends Vue {
     this.$store.commit('createRecord', this.record)
     window.alert('记账成功')
     this.record.notes = ''
-    this.$router.replace('/details')
+    // this.$router.replace('/details')
   }
 
   back() {

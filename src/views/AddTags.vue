@@ -80,7 +80,7 @@ export default class AddTags extends Vue {
 
   selectedAddTags: string[] = []
   addTag: string[] = []
-  shoppingTags: string[] = ['装修', '水果', '饮料', '零食', '电子']
+  shoppingTags: string[] = ['装修', '水果', '饮料', '零食', '外设']
   dailyTags: string[] = ['饭卡', '礼金', '网费', '图书', '理发', '宠物-猫', '宠物-狗',]
   transportTags: string[] = ['油费', 'ETC', '停车', '洗车', '修车', '出租', '网约车', '地铁', '公交', '飞机', '高铁', '火车', '轮船', '罚款',]
   entertainmentTags: string[] = [

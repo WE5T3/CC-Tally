@@ -47,6 +47,7 @@ export default class Tabbar extends Vue {
 
   .type {
     //border: 1px solid;
+    border-top: transparent solid 2px;
     padding: 8px 20px;
     color: black;
     flex-grow: 1;

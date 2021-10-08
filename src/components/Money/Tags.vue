@@ -2,11 +2,11 @@
   <ul class = "tags">
     <li v-for = "tag in TagList" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag.name)>=0}"
         @click = "toggle(tag.name)">
-      <Icon :name = 'tag.name'></Icon>
+      <Icon :name = 'tag.value'></Icon>
       {{ tag.name }}
     </li>
     <li v-if = "dynamic" class = "edit" @click = "edit">
-      <Icon name = "右"/>
+      <Icon name = "right"/>
       编辑
     </li>
   </ul>

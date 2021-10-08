@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import clone from "@/lib/clone"
 import createId from "@/lib/createId"
 import router from "@/router"
-import {defaultExpenseTags} from "@/constants/defaultTagList"
+import {defaultExpenseTags, repositoryTags} from "@/constants/defaultTagList"
 
 Vue.use(Vuex)
 
@@ -34,6 +34,8 @@ const store = new Vuex.Store({
         },
         fetchTags(state) {
             state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]')
+            console.log(state.tagList)
+            state.tagList = state.tagList.filter(item => item.name !== '')
             if (!state.tagList || state.tagList.length === 0) {
                 store.commit('setDefault')
             }
@@ -45,6 +47,8 @@ const store = new Vuex.Store({
         },
         createTag(state, name: string) {
             const names = state.tagList.map(item => item.name)
+            const repositoryNames = repositoryTags.map(item => item.name)
+            const defaultNames = defaultExpenseTags.map(item => item.name)
             if (name === ' ' || name.indexOf(' ') >= 0) {
                 window.alert('标签名不能含有空格')
                 // return 'blank'
@@ -53,7 +57,16 @@ const store = new Vuex.Store({
                 // return 'duplicated'
             } else {
                 const id = createId().toString()
-                state.tagList.push({id, name: name})
+                console.log(id)
+                if (Number(id) >= 12) {
+                    if (defaultNames.indexOf(name) >= 0 || repositoryNames.indexOf(name) >= 0) {
+                        state.tagList.push({id, name: name, value: name})
+                    } else {
+                        state.tagList.push({id, name: name, value: 'diy'})
+                    }
+                } else {
+                    state.tagList.push({id, name: name, value: name})
+                }
                 store.commit('saveTags')
                 // return 'success'
             }
@@ -63,12 +76,22 @@ const store = new Vuex.Store({
             const idList = state.tagList.map(item => item.id)
             if (idList.indexOf(id) >= 0) {
                 const names = state.tagList.map(item => item.name)
+                const defaultNames = defaultExpenseTags.map(item => item.name)
+                const repositoryNames = repositoryTags.map(item => item.name)
+                const tag = state.tagList.filter(item => item.id === id)[0]
+
                 if (names.indexOf(name) >= 0) {
-                    window.alert('标签名重复了')
+                    window.alert('标签名重复')
                     return
                 } else {
-                    const tag = state.tagList.filter(item => item.id === id)[0]
                     tag.name = name
+                    if (defaultNames.indexOf(name) >= 0) {
+                        tag.value = name
+                    } else if (repositoryNames.indexOf(name) >= 0) {
+                        tag.value = name
+                    } else {
+                        tag.value = 'diy'
+                    }
                     store.commit('saveTags')
 
                 }

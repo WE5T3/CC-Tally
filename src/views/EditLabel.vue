@@ -12,7 +12,6 @@
     </div>
     <div class = "button-wrapper">
       <Button @click.native = "removeLabel">删除标签</Button>
-      <Button>确定</Button>
     </div>
   </div>
 </template>
@@ -33,6 +32,7 @@ export default class EditLabel extends Vue {
 
   //钩子函数 created
   created() {
+    console.log(this.currentTag)
     const id = this.$route.params.id
     this.$store.commit('fetchTags')
     this.$store.commit('setCurrentTag', id)
@@ -55,13 +55,9 @@ export default class EditLabel extends Vue {
   }
 
   back() {
-    // this.tag.name=this.tag1
     this.$router.replace('/edittags');
   }
 
-  // ok() {
-  //   this.$router.replace('/money');
-  // }
 }
 </script>
 
