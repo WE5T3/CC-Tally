@@ -12,18 +12,59 @@
 // import Vue from 'vue'
 import {Component, Vue} from 'vue-property-decorator'
 import Chart from '@/components/Chart.vue'
+import _ from "lodash"
+import dayjs from "dayjs"
 
 @Component({
   components: {Chart},
 })
 export default class Statistics extends Vue {
 
-  mounted() {
-    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999
+  beforeCreate() {
+    this.$store.commit('fetchRecords')
+  }
 
+  mounted() {
+    const divChart = this.$refs.chartWrapper as HTMLDivElement
+    divChart.scrollLeft = divChart.scrollWidth
+  }
+
+  get recordList() {
+    return (this.$store.state as RootState).recordList
+  }
+
+  get y() {
+    const today = new Date()
+    const dataList = this.recordList.map(r => _.pick(r, ['date', 'type', 'amount']))
+    // console.log(dataList)
+    const array: any = []
+    for (let i = 0; i <= 29; i++) {
+      const date0 = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD')
+      const found = _.find(this.recordList, {
+        date: date0
+      })
+      array.push(
+          {
+            date: date0,
+            type: found ? found.type : 0,
+            amount: found ? found.amount : 0
+          })
+    }
+    array.sort((a, b) => {
+      if (a.date > b.date) {
+        return 1
+      } else if (a.date === b.date) {
+        return 0
+      } else {
+        return -1
+      }
+    })
+    return array
   }
 
   get x() {
+    const keys = this.y.map(item => item.date)
+    const amount = this.y.map(item => item.amount)
     return {
       tooltip: {
         trigger: 'axis',
@@ -31,7 +72,7 @@ export default class Statistics extends Vue {
         position: 'top',
       },
       legend: {
-        data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+        data: ['收入', '支出', '合计']
       },
       grid: {
         left: "0",
@@ -46,11 +87,7 @@ export default class Statistics extends Vue {
             // color:'rgb(102,102,102)'
           }
         },
-        data: [
-          '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
-        ]
+        data: keys
       },
       yAxis: {
         show: false,
@@ -58,17 +95,17 @@ export default class Statistics extends Vue {
       },
       series: [
         {
-          name: 'Email',
+          name: '收入',
           type: 'line',
           stack: 'Total',
           smooth: true,
-          symbol: 'circle',     //折点设定为实心点
+          symbol: 'circle',
           symbolSize: 10,
           itemStyle: {
             borderWidth: 1,
             color: 'rgb(68,204,156)'
           },
-          markPoint: {     //显示一定区域内的最大值和最小值
+          markPoint: {
             data: [
               {type: 'max', name: '最大值'},
               {type: 'min', name: '最小值'}
@@ -76,67 +113,62 @@ export default class Statistics extends Vue {
             symbol: 'circle',
             symbolSize: 20,
           },
-          data: [
-            120, 132, 101, 134, 90, 230, 210,
-            120, 132, 101, 134, 90, 230, 210,
-            120, 132, 101, 134, 90, 230, 210,
-            120, 132, 101, 134, 90, 230, 210,
-            240, 210],
+          data: amount
         },
-        {
-          name: 'Direct',
-          type: 'line',
-          stack: 'Total',
-          smooth: true,
-          symbol: 'circle',     //折点设定为实心点
-          symbolSize: 10,
-          itemStyle: {
-            borderWidth: 1,
-            color: 'rgb(68,163,204)'
-          },
-          markPoint: {     //显示一定区域内的最大值和最小值
-            data: [
-              {type: 'max', name: '最大值'},
-              {type: 'min', name: '最小值'}
-            ],
-            symbol: 'circle',
-            symbolSize: 20,
-          },
-          data: [
-            320, 332, 301, 334, 390, 330, 320,
-            320, 332, 301, 334, 390, 330, 320,
-            320, 332, 301, 334, 390, 330, 320,
-            320, 332, 301, 334, 390, 330, 320,
-            391, 332
-          ]
-        },
-        {
-          name: 'Search Engine',
-          type: 'line',
-          stack: 'Total',
-          smooth: true,
-          symbol: 'circle',     //折点设定为实心点
-          symbolSize: 10,
-          itemStyle: {
-            borderWidth: 1,
-            color: 'rgb(68,204,204)'
-          },
-          markPoint: {     //显示一定区域内的最大值和最小值
-            data: [
-              {type: 'max', name: '最大值'},
-              {type: 'min', name: '最小值'}
-            ],
-            symbol: 'circle',
-            symbolSize: 20,
-          },
-          data: [
-            820, 932, 901, 934, 1290, 1330, 1320,
-            820, 932, 901, 934, 1290, 1330, 1320,
-            820, 932, 901, 934, 1290, 1330, 1320,
-            820, 932, 901, 934, 1290, 1330, 1320,
-            1340, 932
-          ]
-        },
+        // {
+        //   name: '支出',
+        //   type: 'line',
+        //   stack: 'Total',
+        //   smooth: true,
+        //   symbol: 'circle',
+        //   symbolSize: 10,
+        //   itemStyle: {
+        //     borderWidth: 1,
+        //     color: 'rgb(68,163,204)'
+        //   },
+        //   markPoint: {
+        //     data: [
+        //       {type: 'max', name: '最大值'},
+        //       {type: 'min', name: '最小值'}
+        //     ],
+        //     symbol: 'circle',
+        //     symbolSize: 20,
+        //   },
+        //   data: [
+        //     320, 332, 301, 334, 390, 330, 320,
+        //     320, 332, 301, 334, 390, 330, 320,
+        //     320, 332, 301, 334, 390, 330, 320,
+        //     320, 332, 301, 334, 390, 330, 320,
+        //     391, 332
+        //   ]
+        // },
+        // {
+        //   name: '合计',
+        //   type: 'line',
+        //   stack: 'Total',
+        //   smooth: true,
+        //   symbol: 'circle',
+        //   symbolSize: 10,
+        //   itemStyle: {
+        //     borderWidth: 1,
+        //     color: 'rgb(68,204,204)'
+        //   },
+        //   markPoint: {
+        //     data: [
+        //       {type: 'max', name: '最大值'},
+        //       {type: 'min', name: '最小值'}
+        //     ],
+        //     symbol: 'circle',
+        //     symbolSize: 20,
+        //   },
+        //   data: [
+        //     820, 932, 901, 934, 1290, 1330, 1320,
+        //     820, 932, 901, 934, 1290, 1330, 1320,
+        //     820, 932, 901, 934, 1290, 1330, 1320,
+        //     820, 932, 901, 934, 1290, 1330, 1320,
+        //     1340, 932
+        //   ]
+        // },
       ],
     }
   }

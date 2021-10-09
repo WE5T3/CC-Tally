@@ -21,7 +21,7 @@
       <ol class = "type-bar">
         <li>
           <span class = "text">总计</span>
-          <span class = "number">￥{{ this.amountTotal1 }}</span>
+          <span class = "number">{{ beautifyTotal(this.amountTotal1) }}</span>
         </li>
         <li>
           <span class = "text">支出</span>
@@ -100,6 +100,15 @@ export default class Details extends Vue {
     }
   }
 
+  beautifyTotal(number: number) {
+
+    if (number <= 0) {
+      return '-￥' + Math.abs(number).toFixed(2)
+    } else {
+      return '+￥' + Math.abs(number).toFixed(2)
+    }
+  }
+
   beautifyAmount(number: number) {
     if (number <= 0) {
       return '支出 ￥' + Math.abs(number).toFixed(2)
@@ -132,7 +141,7 @@ export default class Details extends Vue {
   get groupList() {
     const {recordList} = this
     const newList = clone(recordList)
-        .sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf())
+        .sort((a, b) => dayjs(b.date + ' ' + b.time).valueOf() - dayjs(a.date + ' ' + a.time).valueOf())
     if (newList.length === 0) {return []}
     const monthList = clone(newList).filter(item => dayjs(item.date).format('YYYY-MM') === this.month1)
     if (monthList.length === 0) {return []}
@@ -357,6 +366,7 @@ export default class Details extends Vue {
 }
 
 .nothing {
+  color: #999;
   height: 50vh;
   display: flex;
   justify-content: center;

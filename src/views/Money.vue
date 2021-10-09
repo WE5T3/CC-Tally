@@ -1,6 +1,6 @@
 <template>
   <div class = "money">
-    <!--    {{ record }}-->
+<!--        {{ record }}-->
     <div class = "type">
       <Icon class = "back-icon" @click.native = "back" name = "left"/>
       <Tabbar class = "type-bar" :data-source = "recordTypeList" :value.sync = "record.type"/>
@@ -28,6 +28,7 @@ import {Component, Watch} from "vue-property-decorator"
 import Tabbar from "@/components/Tabbar.vue"
 import recordTypeList from "@/constants/recordTypeList"
 import {defaultExpenseTags, defaultIncomeTags} from "@/constants/defaultTagList"
+import dayjs from "dayjs"
 
 
 const version = window.localStorage.getItem('version') || '0'
@@ -48,7 +49,7 @@ export default class Money extends Vue {
     return this.$store.state.tagList
   }
 
-  record: RecordItem = {type: '-', tags: [], date: '', notes: '', amount: 0,}
+  record: RecordItem = {type: '-', tags: [], date: '', time: '', notes: '', amount: 0,}
 
   created() {
     this.$store.commit('fetchRecords')
@@ -67,18 +68,16 @@ export default class Money extends Vue {
       return window.alert('金额不能为0')
     }
     if (this.record.date === '' || this.record.date === null) {
-      let dateStr = new Date(+new Date(new Date().toJSON()) + 8 * 3600 * 1000)
-      // 使用split方法
-      // this.record.date = dateStr.toISOString().split('T')[0]+" "+dateStr.toISOString().split('T')[1].split('.')[0]
-
-      //使用正则
-      this.record.date = dateStr.toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
-      // console.log(this.record.date)
+      this.record.date = dayjs(new Date()).format('YYYY-MM-DD')
     }
-
+    if (this.record.time === '' || this.record.time === null) {
+      this.record.time = dayjs(new Date(new Date().toJSON())).format('HH:mm:ss')
+    }
     this.$store.commit('createRecord', this.record)
     window.alert('记账成功')
     this.record.notes = ''
+    this.record.time = ''
+    this.record.date = ''
     // this.$router.replace('/details')
   }
 

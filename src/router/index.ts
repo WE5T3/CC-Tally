@@ -13,7 +13,7 @@ Vue.use(VueRouter)
 const routes: Array<RouteConfig> = [
     {
         path:'/',
-        redirect:'/money'
+        redirect: '/details'
     },
     {
         path:'/money',

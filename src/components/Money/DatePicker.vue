@@ -3,11 +3,11 @@
     <el-date-picker
         class = "datePicker"
         v-model = "value1"
-        type = "datetime"
+        type = "date"
         size = "small"
         :editable = "false"
-        format = "yyyy-MM-dd HH:mm"
-        value-format = "yyyy-MM-dd HH:mm:ss"
+        format = "yyyy-MM-dd"
+        value-format = "yyyy-MM-dd"
         placeholder = "请选择日期"
         @change = "onChange"
         @focus = 'preventPop'

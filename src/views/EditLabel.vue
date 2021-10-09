@@ -32,7 +32,6 @@ export default class EditLabel extends Vue {
 
   //钩子函数 created
   created() {
-    console.log(this.currentTag)
     const id = this.$route.params.id
     this.$store.commit('fetchTags')
     this.$store.commit('setCurrentTag', id)
