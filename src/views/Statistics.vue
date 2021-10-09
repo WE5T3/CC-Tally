@@ -2,7 +2,7 @@
   <div>
     <Layout>
       <div class = "chart-wrapper" ref = "chartWrapper">
-        <Chart class = "chart" :options = "x"/>
+        <Chart class = "chart" :options = "chartOptions"/>
       </div>
     </Layout>
   </div>
@@ -33,7 +33,7 @@ export default class Statistics extends Vue {
     return (this.$store.state as RootState).recordList
   }
 
-  get y() {
+  get keyValueList() {
     const today = new Date()
     const dataList = this.recordList.map(r => _.pick(r, ['date', 'type', 'amount']))
     // console.log(dataList)
@@ -62,9 +62,9 @@ export default class Statistics extends Vue {
     return array
   }
 
-  get x() {
-    const keys = this.y.map(item => item.date)
-    const amount = this.y.map(item => item.amount)
+  get chartOptions() {
+    const keys = this.keyValueList.map(item => item.date)
+    const amount = this.keyValueList.map(item => item.amount)
     return {
       tooltip: {
         trigger: 'axis',
