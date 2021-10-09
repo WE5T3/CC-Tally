@@ -87,6 +87,11 @@ export default class Statistics extends Vue {
             // color:'rgb(102,102,102)'
           }
         },
+        axisLabel: {
+          formatter: function (value: string, index: number) {
+            return value.substr(5)
+          }
+        },
         data: keys
       },
       yAxis: {
