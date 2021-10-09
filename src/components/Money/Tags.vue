@@ -1,15 +1,17 @@
 <template>
-  <ul class = "tags">
-    <li v-for = "tag in TagList" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag.name)>=0}"
-        @click = "toggle(tag.name)">
-      <Icon :name = 'tag.value'></Icon>
-      {{ tag.name }}
-    </li>
-    <li v-if = "dynamic" class = "edit" @click = "edit">
-      <Icon name = "right"/>
-      编辑
-    </li>
-  </ul>
+  <div class = "tags-wrapper">
+    <ul class = "tags">
+      <li v-for = "tag in TagList" :key = "tag.id" :class = "{selected:selectedTags.indexOf(tag.name)>=0}"
+          @click = "toggle(tag.name)">
+        <Icon :name = 'tag.value'></Icon>
+        {{ tag.name }}
+      </li>
+      <li v-if = "dynamic" class = "edit" @click = "edit">
+        <Icon name = "right"/>
+        编辑
+      </li>
+    </ul>
+  </div>
 
 </template>
 
@@ -63,6 +65,19 @@ export default class Tags extends mixins(TagHelper) {
 <style lang = "scss" scoped>
 @import "~@/assets/style/helper.scss";
 
+.tags-wrapper {
+  flex-grow: 1;
+  scrollbar-width: none; /* firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+}
+
+.tags-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
 .tags {
   flex-grow: 1;
   display: flex;
@@ -70,9 +85,7 @@ export default class Tags extends mixins(TagHelper) {
   //padding-left: 3px;
   flex-direction: row;
   flex-wrap: wrap;
-  overflow: auto;
   justify-content: center;
-
 
   li, .edit {
     font-size: 12px;

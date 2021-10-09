@@ -32,7 +32,7 @@
           <span class = "number">￥{{ Math.abs(this.incomeTotal1) }}</span>
         </li>
       </ol>
-      <div>
+      <div class = "details-wrapper">
         <ol class = "details" v-if = "groupList.length>0">
           <li v-for = "(group,index) in groupList" :key = "index">
             <h3 class = "title">{{ beautifyDate(group.title) }} <span>{{ beautifyAmount(group.total) }}</span></h3>
@@ -225,7 +225,7 @@ export default class Details extends Vue {
 .month {
   position: fixed;
   width: 100%;
-  top: 96+8px;
+  top: 76+8px;
   left: 0;
   z-index: 1;
   background-color: whitesmoke;
@@ -244,12 +244,13 @@ export default class Details extends Vue {
   top: 8px;
   left: 0;
   width: 100%;
-  min-height: 96px;
+  min-height: 76px;
   z-index: 1;
   background-color: rgb(157, 225, 225);
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
+  padding-bottom: 10px;
 
   li {
     width: 120px;
@@ -277,12 +278,20 @@ export default class Details extends Vue {
       font-weight: bold;
     }
   }
-
 }
 
-.details {
-  margin-top: 96+36+8px;
+.details-wrapper {
+  margin-top: 76+36+10px;
+  scrollbar-width: none; /* firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  overflow-x: hidden;
+  overflow-y: auto;
 }
+
+.details-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
 
 .title {
   position: relative;
