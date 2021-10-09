@@ -285,6 +285,7 @@ export default class Details extends Vue {
 }
 
 .title {
+  position: relative;
   border-bottom: rgb(157, 225, 225) 2px ridge;
   background-color: whitesmoke;
   padding: 2px 8px;
@@ -296,6 +297,18 @@ export default class Details extends Vue {
   span {
     font-weight: bold;
   }
+}
+
+.title ::after {
+  position: absolute;
+  top: 23px;
+  right: 0;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgb(123, 176, 176);
 }
 
 .tags {

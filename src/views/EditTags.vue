@@ -45,10 +45,6 @@ export default class EditTags extends mixins(TagHelper) {
     this.$router.replace('/money');
   }
 
-  ok() {
-    this.$router.replace('/money');
-  }
-
 }
 </script>
 
