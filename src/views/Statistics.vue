@@ -329,6 +329,7 @@ export default class Statistics extends Vue {
   padding: 0;
   overflow: hidden;
   width: 100vw;
+  max-width: 500px;
 
   .month-picker ::v-deep {
     .el-input__inner {
@@ -336,6 +337,7 @@ export default class Statistics extends Vue {
       border-radius: 0;
       height: 50px;
       width: 100vw;
+      max-width: 500px;
       text-align: center;
       font-size: large;
     }

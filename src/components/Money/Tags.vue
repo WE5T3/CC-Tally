@@ -76,9 +76,15 @@ export default class Tags extends mixins(TagHelper) {
   }
 }
 
-@media (min-width: 364px) {
+@media (min-width: 364px) and (max-width: 460px) {
   .tags-wrapper {
     width: 72*4+20*3+20px;
+  }
+}
+
+@media (min-width: 460px) {
+  .tags-wrapper {
+    width: 72*5+20*4+20px;
   }
 }
 
