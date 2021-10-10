@@ -11,7 +11,7 @@
           :dynamic = "false"/>
     <DatePicker @update:value = "onUpdateDate"/>
     <FormItem field-name = "备注" placeholder = "#请输入备注#" :value.sync = "record.notes"/>
-    <NumberPad :value.sync = "record.amount" @submit = "saveRecord"/>
+    <NumberPad v-if = "this.isShow" :value.sync = "record.amount" @submit = "saveRecord"/>
 
   </div>
 </template>
@@ -39,6 +39,14 @@ export default class Money extends Vue {
   recordTypeList = recordTypeList
   incomeTags = defaultIncomeTags
   expenseTags = defaultExpenseTags
+  height = document.body.clientHeight
+  isShow = true
+
+  mounted() {
+    window.addEventListener('resize', () => {
+      this.isShow = document.body.clientHeight >= this.height
+    })
+  }
 
   get recordList() {
     return this.$store.state.recordList
