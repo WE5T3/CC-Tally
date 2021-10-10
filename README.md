@@ -1,8 +1,4 @@
-# cctally
-
-## 目标
-- 新增
-- 收入tag栏
+# CC-Tally
 
 ## Project setup
 ```

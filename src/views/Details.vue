@@ -65,6 +65,7 @@ import Tabbar from "@/components/Tabbar.vue"
 import recordTypeList from "@/constants/recordTypeList"
 import dayjs from "dayjs"
 import clone from "@/lib/clone"
+import Nav from "@/components/Nav.vue"
 
 @Component({
   components: {Tabbar}
@@ -73,14 +74,19 @@ import clone from "@/lib/clone"
 export default class Details extends Vue {
   month1: string = dayjs().format('YYYY-MM')
 
-
   amountTotal1 = this.evalAmount(this.summaryList.totalList)
+
   expenseTotal1 = this.evalAmount(this.summaryList.expenseTotalList)
   incomeTotal1 = this.evalAmount(this.summaryList.incomeTotalList)
+
   pickerOptions = {
     disabledDate(time) {
       return time.getTime() > Date.now()
     },
+  }
+
+  beforeCreate() {
+    this.$store.commit('fetchRecords')
   }
 
   evalAmount(arr: any[]) {
@@ -90,6 +96,7 @@ export default class Details extends Vue {
     const num: number = eval(arrNew.join("+")).toFixed(2)
     return num
   }
+
 
   tagString(tags: Tag[]) {
     return tags.length === 0 ? '无' : tags.join(',')
@@ -211,9 +218,6 @@ export default class Details extends Vue {
     return summary
   }
 
-  beforeCreate() {
-    this.$store.commit('fetchRecords')
-  }
 
   type = '-'
   recordTypeList = recordTypeList
@@ -312,7 +316,6 @@ export default class Details extends Vue {
 .details-wrapper::-webkit-scrollbar {
   display: none;
 }
-
 
 .title {
   position: relative;
