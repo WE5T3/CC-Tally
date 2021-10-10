@@ -1,7 +1,6 @@
 <template>
   <div>
     <Layout>
-
       <div class = "header">
         <Icon name = "cc"/>
         CC记账
@@ -26,11 +25,11 @@
         </li>
         <li>
           <span class = "text">支出</span>
-          <span class = "number">￥{{ beautifyNaN(Math.abs(this.expenseTotal1)) }}</span>
+          <span class = "number">￥{{ beautifyNaN(this.expenseTotal1) }}</span>
         </li>
         <li>
           <span class = "text">收入</span>
-          <span class = "number">￥{{ beautifyNaN(Math.abs(this.incomeTotal1)) }}</span>
+          <span class = "number">￥{{ beautifyNaN(this.incomeTotal1) }}</span>
         </li>
       </ol>
 
@@ -67,7 +66,6 @@ import Tabbar from "@/components/Tabbar.vue"
 import recordTypeList from "@/constants/recordTypeList"
 import dayjs from "dayjs"
 import clone from "@/lib/clone"
-import Nav from "@/components/Nav.vue"
 
 @Component({
   components: {Tabbar}
@@ -122,12 +120,13 @@ export default class Details extends Vue {
     if (isNaN(number)) {
       console.log("NaN")
       return 0
+    } else {
+      return Math.abs(number)
     }
   }
 
   beautifyTotal(number: number) {
     if (isNaN(number)) {
-      console.log("NaN")
       return '￥' + 0
     }
     if (number <= 0) {
