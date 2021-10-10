@@ -72,6 +72,7 @@ export default class Tags extends mixins(TagHelper) {
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
+  justify-content: center;
 }
 
 .tags-wrapper::-webkit-scrollbar {
@@ -85,7 +86,7 @@ export default class Tags extends mixins(TagHelper) {
   //padding-left: 3px;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
 
   li, .edit {
     font-size: 12px;

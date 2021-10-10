@@ -66,9 +66,10 @@ export default class DateSelector extends Vue {
 <style lang = "scss" scoped>
 @import "~@/assets/style/helper.scss";
 
-.el-date-editor.el-input, .el-date-editor.el-input__inner {
-  //width: 50%;
+::v-deep .el-date-editor.el-input, .el-date-editor.el-input__inner {
+  width: 130px;
 }
+
 .date {
   height: 37px;
   font-size: 14px;
