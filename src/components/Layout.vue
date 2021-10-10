@@ -3,7 +3,7 @@
     <div class = "content" :class="classPrefix && `${classPrefix}-content ` ">
       <slot/>
     </div>
-    <Nav/>
+    <Nav class = "nav"/>
   </div>
 </template>
 
@@ -17,6 +17,11 @@ export default {
 </script>
 
 <style lang = "scss" scoped>
+
+.nav {
+  box-shadow: 0 0 3px rgba(20, 20, 20, 0.25);
+  z-index: 1;
+}
 
 .layout-wrapper {
   display: flex;

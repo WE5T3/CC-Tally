@@ -70,16 +70,25 @@ import clone from "@/lib/clone"
   components: {Tabbar}
 })
 
-
 export default class Details extends Vue {
   month1: string = dayjs().format('YYYY-MM')
-  expenseTotal1: number = 0
-  incomeTotal1: number = 0
-  amountTotal1: number = 0
+
+
+  amountTotal1 = this.evalAmount(this.summaryList.totalList)
+  expenseTotal1 = this.evalAmount(this.summaryList.expenseTotalList)
+  incomeTotal1 = this.evalAmount(this.summaryList.incomeTotalList)
   pickerOptions = {
     disabledDate(time) {
       return time.getTime() > Date.now()
     },
+  }
+
+  evalAmount(arr: any[]) {
+    const arrNew = arr.map(item => {
+      return item.total
+    })
+    const num: number = eval(arrNew.join("+")).toFixed(2)
+    return num
   }
 
   tagString(tags: Tag[]) {
@@ -165,23 +174,11 @@ export default class Details extends Vue {
         result.push({title: dayjs(current.date).format('YYYY-MM-DD'), items: [current]})
       }
     }
-
     result.map(group => {
       group.total = group.items.reduce((sum, item) => {
         return eval(sum + (item.type + item.amount))
       }, 0)
     })
-
-    type Summary = {
-      expenseTotalList: number[],
-      incomeTotalList: number[],
-      totalList: number[],
-    }
-    const summary: Summary = {
-      expenseTotalList: [],
-      incomeTotalList: [],
-      totalList: [],
-    }
 
     result.map(group => {
       group.expenseTotal = group.items.filter(r => r.type === '-').reduce((sum, item) => {
@@ -192,15 +189,26 @@ export default class Details extends Vue {
       }, 0)
     })
 
-    result.map(group => {
-      summary.totalList.push(group.total!)
-      summary.expenseTotalList.push(group.expenseTotal!)
-      summary.incomeTotalList.push(group.incomeTotal!)
-    })
-    this.amountTotal1 = eval(summary.totalList.join("+")).toFixed(2)
-    this.expenseTotal1 = eval(summary.expenseTotalList.join("+")).toFixed(2)
-    this.incomeTotal1 = eval(summary.incomeTotalList.join("+")).toFixed(2)
     return result
+  }
+
+  get summaryList() {
+    type Summary = {
+      expenseTotalList: any[],
+      incomeTotalList: any[],
+      totalList: any[],
+    }
+    const summary: Summary = {
+      expenseTotalList: [],
+      incomeTotalList: [],
+      totalList: [],
+    }
+    this.groupList.map(group => {
+      summary.totalList.push({total: group.total!, date: group.title})
+      summary.expenseTotalList.push({total: group.expenseTotal!, date: group.title})
+      summary.incomeTotalList.push({total: group.incomeTotal!, date: group.title})
+    })
+    return summary
   }
 
   beforeCreate() {
@@ -237,13 +245,16 @@ export default class Details extends Vue {
   top: 76+8px;
   left: 0;
   z-index: 1;
-  background-color: whitesmoke;
+  background-color: rgb(157, 225, 225);
   padding: 2px 0;
 
   .month-picker ::v-deep {
     .el-input__inner {
       border: none;
-      width: 200%;
+      border-radius: 0;
+      width: 100vw;
+      text-align: center;
+
     }
   }
 }
@@ -295,6 +306,7 @@ export default class Details extends Vue {
   -ms-overflow-style: none; /* IE 10+ */
   overflow-x: hidden;
   overflow-y: auto;
+
 }
 
 .details-wrapper::-webkit-scrollbar {

@@ -29,7 +29,7 @@ nav {
   flex-direction: row;
   background-color: $bottomColor;
   justify-content: space-between;
-  box-shadow: 0 0 3px rgba(20, 20, 20, 0.25);
+  //box-shadow: 0 0 3px rgba(20, 20, 20, 0.25);
   >.item{
     padding: 8px 0 4px;
     width: 33.33333%;

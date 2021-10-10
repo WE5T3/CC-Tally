@@ -1,9 +1,6 @@
 <template>
   <div>
     <Layout>
-      <div class = "chart-wrapper" ref = "chartWrapper">
-        <Chart class = "chart" :options = "chartOptions"/>
-      </div>
       <div class = "month">
         <el-date-picker
             class = "month-picker"
@@ -16,6 +13,9 @@
             type = "month"
             placeholder = "选择月">
         </el-date-picker>
+      </div>
+      <div class = "chart-wrapper" ref = "chartWrapper">
+        <Chart class = "chart" :options = "chartOptions"/>
       </div>
     </Layout>
   </div>
@@ -55,7 +55,6 @@ export default class Statistics extends Vue {
   }
 
   get groupList() {
-
     const {recordList} = this
     const newList = clone(recordList)
         .sort((a, b) => dayjs(b.date + ' ' + b.time).valueOf() - dayjs(a.date + ' ' + a.time).valueOf())
@@ -82,32 +81,106 @@ export default class Statistics extends Vue {
         result.push({title: dayjs(current.date).format('YYYY-MM-DD'), items: [current]})
       }
     }
-
     result.map(group => {
       group.total = group.items.reduce((sum, item) => {
         return eval(sum + (item.type + item.amount))
       }, 0)
     })
+
+    result.map(group => {
+      group.expenseTotal = group.items.filter(r => r.type === '-').reduce((sum, item) => {
+        return eval(sum + (item.type + item.amount))
+      }, 0)
+      group.incomeTotal = group.items.filter(r => r.type === '+').reduce((sum, item) => {
+        return eval(sum + (item.type + item.amount))
+      }, 0)
+    })
+
     return result
   }
 
+  get summaryList() {
+    type Summary = {
+      expenseTotalList: any[],
+      incomeTotalList: any[],
+      totalList: any[],
+    }
+    const summary: Summary = {
+      expenseTotalList: [],
+      incomeTotalList: [],
+      totalList: [],
+    }
+    this.groupList.map(group => {
+      summary.totalList.push({total: group.total!, date: group.title})
+      summary.expenseTotalList.push({total: Math.abs(group.expenseTotal!), date: group.title})
+      summary.incomeTotalList.push({total: group.incomeTotal!, date: group.title})
+    })
+    return summary
+  }
 
-  get keyValueList() {
+  get expenseAmountList() {
     const today = new Date()
-    const dataList = this.groupList.map(r => _.pick(r, ['title', 'total']))
-    // console.log(this.groupList)
-    // console.log(dataList)
     const array: any = []
-    for (let i = 0; i <= 29; i++) {
-      const dateString = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD')
-      const found = _.find(this.groupList, {
-        title: dateString
+    for (let i = 0; i <= 30; i++) {
+      const dateString = dayjs(dayjs(this.month1 + '-01')).add(i, 'day').format('YYYY-MM-DD')
+      const found = _.find(this.summaryList.expenseTotalList, {
+        date: dateString
       })
-      // console.log(found)
       array.push(
           {
             date: dateString,
-            // type: found ? found.type : 0,
+            total: found ? found.total : 0
+          })
+    }
+    array.sort((a, b) => {
+      if (a.date > b.date) {
+        return 1
+      } else if (a.date === b.date) {
+        return 0
+      } else {
+        return -1
+      }
+    })
+    return array
+  }
+
+  get incomeAmountList() {
+    const today = new Date()
+    const array: any = []
+    for (let i = 0; i <= 30; i++) {
+      const dateString = dayjs(dayjs(this.month1 + '-01')).add(i, 'day').format('YYYY-MM-DD')
+      const found = _.find(this.summaryList.incomeTotalList, {
+        date: dateString
+      })
+      array.push(
+          {
+            date: dateString,
+            total: found ? found.total : 0
+          })
+    }
+    array.sort((a, b) => {
+      if (a.date > b.date) {
+        return 1
+      } else if (a.date === b.date) {
+        return 0
+      } else {
+        return -1
+      }
+    })
+    return array
+  }
+
+  get totalAmountList() {
+    const today = new Date()
+    const array: any = []
+    for (let i = 0; i <= 30; i++) {
+      const dateString = dayjs(dayjs(this.month1 + '-01')).add(i, 'day').format('YYYY-MM-DD')
+      const found = _.find(this.groupList, {
+        title: dateString
+      })
+      array.push(
+          {
+            date: dateString,
             total: found ? found.total : 0
           })
     }
@@ -124,8 +197,15 @@ export default class Statistics extends Vue {
   }
 
   get chartOptions() {
-    const keys = this.keyValueList.map(item => item.date)
-    const amount = this.keyValueList.map(item => item.total)
+
+    const keys = [
+      '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+      '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+      '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'
+    ]
+    const totalAmount = this.totalAmountList.map(item => item.total)
+    const expenseAmount = this.expenseAmountList.map(item => item.total)
+    const incomeAmount = this.incomeAmountList.map(item => item.total)
     return {
       tooltip: {
         trigger: 'axis',
@@ -134,10 +214,13 @@ export default class Statistics extends Vue {
       },
       legend: {
         data: ['收入', '支出', '合计']
+        // data: ['合计']
       },
       grid: {
+
         left: "0",
         right: '20px',
+
         containLabel: true
       },
       xAxis: {
@@ -149,24 +232,31 @@ export default class Statistics extends Vue {
           }
         },
         axisLabel: {
-          formatter: function (value: string, index: number) {
-            return value.substr(5)
-          }
+          interval: 1,
+          fontSize: 12,
+          // formatter: function (value: string, index: number) {
+          //   if (value.substr(8)[0] === '0') {
+          //     return value.substr(9)
+          //   } else {
+          //     return value.substr(8)
+          //   }
+          //
+          // }
         },
         data: keys
       },
       yAxis: {
-        show: false,
+        // show: false,
         type: 'value'
       },
       series: [
         {
-          name: '收入',
+          name: '合计',
           type: 'line',
           stack: 'Total',
           smooth: true,
           symbol: 'circle',
-          symbolSize: 10,
+          symbolSize: 6,
           itemStyle: {
             borderWidth: 1,
             color: 'rgb(68,204,156)'
@@ -177,64 +267,52 @@ export default class Statistics extends Vue {
               {type: 'min', name: '最小值'}
             ],
             symbol: 'circle',
-            symbolSize: 20,
+            symbolSize: 15,
           },
-          data: amount
+          data: totalAmount
         },
-        // {
-        //   name: '支出',
-        //   type: 'line',
-        //   stack: 'Total',
-        //   smooth: true,
-        //   symbol: 'circle',
-        //   symbolSize: 10,
-        //   itemStyle: {
-        //     borderWidth: 1,
-        //     color: 'rgb(68,163,204)'
-        //   },
-        //   markPoint: {
-        //     data: [
-        //       {type: 'max', name: '最大值'},
-        //       {type: 'min', name: '最小值'}
-        //     ],
-        //     symbol: 'circle',
-        //     symbolSize: 20,
-        //   },
-        //   data: [
-        //     320, 332, 301, 334, 390, 330, 320,
-        //     320, 332, 301, 334, 390, 330, 320,
-        //     320, 332, 301, 334, 390, 330, 320,
-        //     320, 332, 301, 334, 390, 330, 320,
-        //     391, 332
-        //   ]
-        // },
-        // {
-        //   name: '合计',
-        //   type: 'line',
-        //   stack: 'Total',
-        //   smooth: true,
-        //   symbol: 'circle',
-        //   symbolSize: 10,
-        //   itemStyle: {
-        //     borderWidth: 1,
-        //     color: 'rgb(68,204,204)'
-        //   },
-        //   markPoint: {
-        //     data: [
-        //       {type: 'max', name: '最大值'},
-        //       {type: 'min', name: '最小值'}
-        //     ],
-        //     symbol: 'circle',
-        //     symbolSize: 20,
-        //   },
-        //   data: [
-        //     820, 932, 901, 934, 1290, 1330, 1320,
-        //     820, 932, 901, 934, 1290, 1330, 1320,
-        //     820, 932, 901, 934, 1290, 1330, 1320,
-        //     820, 932, 901, 934, 1290, 1330, 1320,
-        //     1340, 932
-        //   ]
-        // },
+        {
+          name: '支出',
+          type: 'line',
+          stack: 'Total',
+          smooth: true,
+          symbol: 'circle',
+          symbolSize: 6,
+          itemStyle: {
+            borderWidth: 1,
+            color: 'rgb(68,163,204)'
+          },
+          markPoint: {
+            data: [
+              {type: 'max', name: '最大值'},
+              {type: 'min', name: '最小值'}
+            ],
+            symbol: 'circle',
+            symbolSize: 15,
+          },
+          data: expenseAmount
+        },
+        {
+          name: '收入',
+          type: 'line',
+          stack: 'Total',
+          smooth: true,
+          symbol: 'circle',
+          symbolSize: 6,
+          itemStyle: {
+            borderWidth: 1,
+            color: 'rgb(68,204,204)'
+          },
+          markPoint: {
+            data: [
+              {type: 'max', name: '最大值'},
+              {type: 'min', name: '最小值'}
+            ],
+            symbol: 'circle',
+            symbolSize: 15,
+          },
+          data: incomeAmount
+        },
       ],
     }
   }
@@ -242,9 +320,31 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang = "scss" scoped>
+
+.month {
+
+  margin-bottom: 2px;
+  z-index: 1;
+  border: 1px solid rgb(157, 225, 225);
+  padding: 0;
+  overflow: hidden;
+  width: 100vw;
+
+  .month-picker ::v-deep {
+    .el-input__inner {
+      border: none;
+      border-radius: 0;
+      height: 50px;
+      width: 100vw;
+      text-align: center;
+      font-size: large;
+    }
+  }
+}
+
 .chart {
-  width: 430%;
-  height: 400px;
+  width: 100%;
+  height: 85vh;
 }
 
 .chart-wrapper::-webkit-scrollbar {
@@ -252,6 +352,7 @@ export default class Statistics extends Vue {
 }
 
 .chart-wrapper {
+
   scrollbar-width: none; /* firefox */
   -ms-overflow-style: none; /* IE 10+ */
   overflow-y: hidden;
