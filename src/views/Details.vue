@@ -26,11 +26,11 @@
         </li>
         <li>
           <span class = "text">支出</span>
-          <span class = "number">￥{{ Math.abs(this.expenseTotal1) }}</span>
+          <span class = "number">￥{{ beautifyNaN(Math.abs(this.expenseTotal1)) }}</span>
         </li>
         <li>
           <span class = "text">收入</span>
-          <span class = "number">￥{{ Math.abs(this.incomeTotal1) }}</span>
+          <span class = "number">￥{{ beautifyNaN(Math.abs(this.incomeTotal1)) }}</span>
         </li>
       </ol>
 
@@ -118,8 +118,18 @@ export default class Details extends Vue {
     }
   }
 
-  beautifyTotal(number: number) {
+  beautifyNaN(number: number) {
+    if (isNaN(number)) {
+      console.log("NaN")
+      return 0
+    }
+  }
 
+  beautifyTotal(number: number) {
+    if (isNaN(number)) {
+      console.log("NaN")
+      return '￥' + 0
+    }
     if (number <= 0) {
       return '-￥' + Math.abs(number).toFixed(2)
     } else {
