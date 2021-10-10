@@ -34,7 +34,7 @@
         <Icon name = "清空"/>
       </button>
       <button @click = "ok" id = "ok" class = "btnSvg">
-        <Icon name = "确定"/>
+        ✔
       </button>
     </div>
   </div>
@@ -50,9 +50,6 @@ export default class numberPad extends Vue {
 
   computing: boolean = false
   output: string = this.value.toString()
-  svgEqual = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#等于"></use></svg>'
-  svgSubmit = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#确定"></use></svg>'
-
 
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement)
@@ -109,7 +106,7 @@ export default class numberPad extends Vue {
       this.output = this.output.substring(0, this.output.length - 1)
     }
     if (this.output.indexOf('+' || '-') < 0) {
-      okButton.innerHTML = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#确定"></use></svg>'
+      okButton.innerHTML = '✔'
     }
   }
 
@@ -125,10 +122,10 @@ export default class numberPad extends Vue {
     // √和= 切换
     if (input === '-' || '+') {
       if (this.output.indexOf('+' || '-') < 0) {
-        okButton.innerHTML = this.svgEqual
+        okButton.innerHTML = '＝'
       }
     }
-    this.computing = okButton.innerHTML === this.svgEqual
+    this.computing = okButton.innerHTML === '＝'
     if (this.output.substr(-1, 1) === '+' && input === '+' || this.output.substr(-1, 1) === '-' && input === '-') {
       return
     } else if (this.output.substr(-1, 1) === '+' && input === '-' || this.output.substr(-1, 1) === '-' && input === '+') {
@@ -147,7 +144,7 @@ export default class numberPad extends Vue {
 
   ok() {
     const okButton = document.querySelector('#ok')!
-    okButton.innerHTML = this.svgSubmit
+    okButton.innerHTML = '✔'
 
     if ('+-'.indexOf(this.output.substr(-1, 1)) >= 0) {
       this.output = this.output.slice(0, -1)
@@ -167,8 +164,6 @@ export default class numberPad extends Vue {
       this.computing = false
     }
   }
-
-
 }
 
 </script>
@@ -196,7 +191,6 @@ export default class numberPad extends Vue {
       align-items: center;
       margin-left: 8px;
       margin-top: 3px;
-      //border: 1px solid #666666;
       visibility: hidden;
       border-radius: 50%;
     }
@@ -263,4 +257,5 @@ export default class numberPad extends Vue {
 .btnSvg, .point {
   font-size: 25px;
 }
+
 </style>
