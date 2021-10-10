@@ -34,7 +34,11 @@ export default class Tags extends mixins(TagHelper) {
   selectedTags: string[] = []
 
   mounted() {
-    this.selectedTags = ['饮食']
+    if (this.type === '-') {
+      this.selectedTags = ['饮食']
+    } else {
+      this.selectedTags = ['工资']
+    }
     this.$emit('update:value', this.selectedTags)
   }
 
@@ -59,6 +63,7 @@ export default class Tags extends mixins(TagHelper) {
   edit() {
     this.$router.replace('/edittags')
   }
+
 }
 </script>
 
@@ -83,7 +88,6 @@ export default class Tags extends mixins(TagHelper) {
   flex-grow: 1;
   display: flex;
   margin: 10px 0;
-  //padding-left: 3px;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;

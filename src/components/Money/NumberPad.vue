@@ -1,8 +1,13 @@
 <template>
   <div class = "numberPad">
     <div class = "amount">
-      <div class = "rmb">¥</div>
-      <div class = "output">{{ output }}</div>
+      <div class = "tag">
+
+      </div>
+      <div class = "output-wrapper">
+        <div class = "rmb">¥</div>
+        <div class = "output">{{ output }}</div>
+      </div>
     </div>
     <div class = "buttons">
       <button @click = "inputContent">7</button>
@@ -37,15 +42,17 @@
 
 <script lang = "ts">
 import Vue from 'vue'
-import {Component, Prop} from "vue-property-decorator";
+import {Component, Prop} from "vue-property-decorator"
 
 @Component
 export default class numberPad extends Vue {
   @Prop(Number) readonly value!: number
+
   computing: boolean = false
   output: string = this.value.toString()
   svgEqual = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#等于"></use></svg>'
   svgSubmit = '<svg data-v-abc9f7ae="" data-v-6980a65b="" class="icon"><use data-v-abc9f7ae="" xlink:href="#确定"></use></svg>'
+
 
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement)
@@ -55,10 +62,10 @@ export default class numberPad extends Vue {
     //长度判断
     if (this.output.indexOf('+' || '-') < 0 && this.output.length >= 18) {
       alert('输入数值太大,放不下啦!')
-      return;
+      return
     } else if (this.output.indexOf('+' || '-') >= 0 && this.output.length >= 21) {
       alert('输入算式太长,放不下啦!')
-      return;
+      return
     }
 
     if (this.output === '0') {
@@ -77,18 +84,18 @@ export default class numberPad extends Vue {
     if (number1[0] === '0' || '.') {
       if (number1.indexOf('.') >= 0) {
         if (number2.length >= 2) {
-          return;
+          return
         }
       }
     }
 
     if (number1[0] === '0' && (number1.indexOf('.') < 0) && input !== '.') {
-      this.output = this.output.slice(0, -1);
+      this.output = this.output.slice(0, -1)
       this.output += input
-      return;
+      return
     }
     if (number1.indexOf('.') >= 0 && input === '.') {
-      return;
+      return
     }
     this.output += input
 
@@ -121,17 +128,17 @@ export default class numberPad extends Vue {
         okButton.innerHTML = this.svgEqual
       }
     }
-    this.computing = okButton.innerHTML === this.svgEqual;
+    this.computing = okButton.innerHTML === this.svgEqual
     if (this.output.substr(-1, 1) === '+' && input === '+' || this.output.substr(-1, 1) === '-' && input === '-') {
-      return;
+      return
     } else if (this.output.substr(-1, 1) === '+' && input === '-' || this.output.substr(-1, 1) === '-' && input === '+') {
-      this.output = this.output.slice(0, -1);
+      this.output = this.output.slice(0, -1)
       this.output += input
     } else if (this.output.substr(-1, 1) === '.' && (input === ('-') || input === ('+'))) {
       if ('+-'.indexOf(this.output.substr(-2, 1)) >= 0) {
-        return;
+        return
       }
-      this.output = this.output.slice(0, -1);
+      this.output = this.output.slice(0, -1)
       this.output += input
     } else {
       this.output += input
@@ -143,13 +150,14 @@ export default class numberPad extends Vue {
     okButton.innerHTML = this.svgSubmit
 
     if ('+-'.indexOf(this.output.substr(-1, 1)) >= 0) {
-      this.output = this.output.slice(0, -1);
+      this.output = this.output.slice(0, -1)
     } else if (this.output.substr(-1, 1) === '.' && '+-'.indexOf(this.output.substr(-2, 1)) >= 0) {
-      this.output = this.output.slice(0, -2);
+      this.output = this.output.slice(0, -2)
     }
 
     if (!this.computing) {
       this.output = eval(this.output).toFixed(2)
+
       const number = parseFloat(this.output)
       this.$emit('update:value', number)
       this.$emit('submit', number)
@@ -172,13 +180,30 @@ export default class numberPad extends Vue {
   .amount {
     @extend %innerShadow;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     font-size: 24px;
     padding-right: 8px;
     height: 37px;
     font-family: Consolas, monospace;
     font-weight: lighter;
     background-color: $bottomColor;
+
+    .tag {
+      display: flex;
+      height: 34px;
+      width: 34px;
+      justify-content: center;
+      align-items: center;
+      margin-left: 8px;
+      margin-top: 3px;
+      //border: 1px solid #666666;
+      visibility: hidden;
+      border-radius: 50%;
+    }
+
+    .output-wrapper {
+      display: flex;
+    }
 
     .rmb {
       color: #50bebe;

@@ -1,6 +1,5 @@
 <template>
   <div class = "money">
-<!--        {{ record }}-->
     <div class = "type">
       <Icon class = "back-icon" @click.native = "back" name = "left"/>
       <Tabbar class = "type-bar" :data-source = "recordTypeList" :value.sync = "record.type"/>
@@ -8,7 +7,7 @@
     </div>
     <!--    {{ recordList }}-->
     <Tags type = "-" :TagList = "tagList" v-if = "record.type === '-'" :value.sync = "record.tags" :dynamic = "true"/>
-    <Tags type = "-" :TagList = "incomeTags" v-else-if = "record.type === '+'" :value.sync = "record.tags"
+    <Tags type = "+" :TagList = "incomeTags" v-else-if = "record.type === '+'" :value.sync = "record.tags"
           :dynamic = "false"/>
     <DatePicker @update:value = "onUpdateDate"/>
     <FormItem field-name = "备注" placeholder = "#请输入备注#" :value.sync = "record.notes"/>
@@ -66,6 +65,8 @@ export default class Money extends Vue {
     }
     if (this.record.amount === 0) {
       return window.alert('金额不能为0')
+    } else if (this.record.amount < 0) {
+      return window.alert('金额不能为负')
     }
     if (this.record.date === '' || this.record.date === null) {
       this.record.date = dayjs(new Date()).format('YYYY-MM-DD')
@@ -87,7 +88,6 @@ export default class Money extends Vue {
 
   @Watch('record.type')
   onTypeChange(type: string) {
-
     if (type === '+') {
       this.record.tags[0] = '工资'
     } else if (type === '-') {
