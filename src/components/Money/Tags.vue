@@ -70,8 +70,21 @@ export default class Tags extends mixins(TagHelper) {
 <style lang = "scss" scoped>
 @import "~@/assets/style/helper.scss";
 
+@media (max-width: 364px) {
+  .tags-wrapper {
+    width: 72*3+20*2+20px;
+  }
+}
+
+@media (min-width: 364px) {
+  .tags-wrapper {
+    width: 72*4+20*3+20px;
+  }
+}
+
 .tags-wrapper {
   flex-grow: 1;
+  margin: 0 auto;
   scrollbar-width: none; /* firefox */
   -ms-overflow-style: none; /* IE 10+ */
   overflow-x: hidden;
@@ -85,12 +98,10 @@ export default class Tags extends mixins(TagHelper) {
 }
 
 .tags {
-  flex-grow: 1;
   display: flex;
-  margin: 10px 0;
+  margin: 10px auto;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
 
   li, .edit {
     font-size: 12px;

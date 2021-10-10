@@ -1,6 +1,7 @@
 <template>
   <div>
     <Layout>
+
       <div class = "header">
         <Icon name = "cc"/>
         CC记账
@@ -32,6 +33,7 @@
           <span class = "number">￥{{ Math.abs(this.incomeTotal1) }}</span>
         </li>
       </ol>
+
       <div class = "details-wrapper">
         <ol class = "details" v-if = "groupList.length>0">
           <li v-for = "(group,index) in groupList" :key = "index">
@@ -227,14 +229,16 @@ export default class Details extends Vue {
 <style lang = "scss" scoped>
 @import "~@/assets/style/helper.scss";
 
+
 .header {
   color: black;
   font-family: $font-kai;
   font-size: larger;
   position: fixed;
   width: 100%;
+  max-width: 500px;
   top: 0;
-  left: 0;
+
   z-index: 2;
   display: flex;
   justify-content: space-between;
@@ -246,8 +250,9 @@ export default class Details extends Vue {
 .month {
   position: fixed;
   width: 100%;
+  max-width: 500px;
   top: 76+8px;
-  left: 0;
+
   z-index: 1;
   background-color: rgb(157, 225, 225);
   padding: 2px 0;
@@ -257,6 +262,7 @@ export default class Details extends Vue {
       border: none;
       border-radius: 0;
       width: 100vw;
+      max-width: 500px;
       text-align: center;
 
     }
@@ -266,8 +272,9 @@ export default class Details extends Vue {
 .type-bar {
   position: fixed;
   top: 8px;
-  left: 0;
+
   width: 100%;
+  max-width: 500px;
   min-height: 76px;
   z-index: 1;
   background-color: rgb(157, 225, 225);
